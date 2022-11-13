@@ -28,7 +28,7 @@ public class JarvisManager : MonoBehaviour
                 var position = FirstPts.transform.position;
                 curlowX = position.x;
                 curlowY = position.y;
-                Debug.Log(FirstPts.name);
+                //Debug.Log(FirstPts.name);
             }
             else if (Math.Abs(pts.transform.position.x - curlowX) < 0.1f)
             {
@@ -38,7 +38,7 @@ public class JarvisManager : MonoBehaviour
                     var position = FirstPts.transform.position;
                     curlowX = position.x;
                     curlowY = position.y;
-                    Debug.Log(FirstPts.name);
+                    //Debug.Log(FirstPts.name);
                 }
             }
         }
@@ -76,6 +76,7 @@ public class JarvisManager : MonoBehaviour
         do
         {
             P.Add(I);
+            Debug.Log(I.name);
             GameObject JV;
             GameObject Inew;
             int index = Points.IndexOf(I);
@@ -93,6 +94,7 @@ public class JarvisManager : MonoBehaviour
             
             Vector2 JVI = new Vector2(JVT.x-IVT.x, JVT.y-IVT.y);
             float Amin = VecAngle(V, JVI);
+            float Lmax = VecNorm(JVI);
             Debug.Log(Amin);
             Inew = JV;
             
@@ -100,20 +102,25 @@ public class JarvisManager : MonoBehaviour
             {
                 if (Points[j] != I)
                 {
-                    Debug.Log(Points[j].name);
+                    //Debug.Log(Points[j].name);
                     float A = VecAngle(V,new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.y-Points[j].transform.position.y));
-                    if (Amin > A)
+                    float L = VecNorm(new Vector2(I.transform.position.x - Points[j].transform.position.x,
+                        I.transform.position.y - Points[j].transform.position.y));
+                    if (Amin > A || (Amin==A && Lmax<L))
                     {
                         Amin = A;
+                        Lmax = L;
+                        Debug.Log("Point looked "+Points[j].name);
+                        Debug.Log("Amin after change "+Amin);
                         Inew = Points[j];
                     }
                 }
             }
 
-            V = new Vector3(Inew.transform.position.x - I.transform.position.x,
+            V = new Vector2(Inew.transform.position.x - I.transform.position.x,
                 Inew.transform.position.y - I.transform.position.y);
             I = Inew;
-            Debug.Log(I.name);
+            //Debug.Log(I.name);
             //break;
 
         } while (I != P[0]);
@@ -123,8 +130,7 @@ public class JarvisManager : MonoBehaviour
 
     public float VecAngle(Vector2 a, Vector2 b)
     {
-        float res = Mathf.Acos((Vector2.Dot(a, b) / (a.magnitude * b.magnitude)));
-        return res;
+        return Mathf.Acos(Vector2.Dot(a, b) / (VecNorm(a) * VecNorm(b)));
     }
 
     public float VecNorm(Vector2 a)
@@ -136,6 +142,4 @@ public class JarvisManager : MonoBehaviour
     {
         return Mathf.Acos((p2.x - p1.x) * (p3.z - p1.z) - (p3.x - p1.x) * (p2.z - p1.z));
     }*/
-    
-
 }

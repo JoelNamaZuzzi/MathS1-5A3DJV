@@ -76,7 +76,7 @@ public class JarvisManager : MonoBehaviour
         do
         {
             P.Add(I);
-            Debug.Log(I.name);
+            Debug.Log("added pts "+I.name);
             GameObject JV;
             GameObject Inew;
             int index = Points.IndexOf(I);
@@ -95,7 +95,7 @@ public class JarvisManager : MonoBehaviour
             Vector2 JVI = new Vector2(JVT.x-IVT.x, JVT.y-IVT.y);
             float Amin = VecAngle(V, JVI);
             float Lmax = VecNorm(JVI);
-            Debug.Log(Amin);
+            Debug.Log("First Amin "+Amin);
             Inew = JV;
             
             for(int j = Points.IndexOf(Inew)+1; j<Points.Count; j++)
@@ -104,14 +104,17 @@ public class JarvisManager : MonoBehaviour
                 {
                     //Debug.Log(Points[j].name);
                     float A = VecAngle(V,new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.y-Points[j].transform.position.y));
+                    Debug.Log("CurVec "+new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.y-Points[j].transform.position.y));
                     float L = VecNorm(new Vector2(I.transform.position.x - Points[j].transform.position.x,
                         I.transform.position.y - Points[j].transform.position.y));
+                    
+                    Debug.Log("Current looking pts "+Points[j]+" current angle "+A);
                     if (Amin > A || (Amin==A && Lmax<L))
                     {
                         Amin = A;
                         Lmax = L;
-                        Debug.Log("Point looked "+Points[j].name);
-                        Debug.Log("Amin after change "+Amin);
+                        //Debug.Log("Point selected "+Points[j].name);
+                        //Debug.Log("Amin after change "+Amin);
                         Inew = Points[j];
                     }
                 }
@@ -120,7 +123,7 @@ public class JarvisManager : MonoBehaviour
             V = new Vector2(Inew.transform.position.x - I.transform.position.x,
                 Inew.transform.position.y - I.transform.position.y);
             I = Inew;
-            //Debug.Log(I.name);
+            Debug.Log("End loop iter");
             //break;
 
         } while (I != P[0]);

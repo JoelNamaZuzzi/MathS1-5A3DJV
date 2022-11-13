@@ -91,7 +91,7 @@ public class JarvisManager : MonoBehaviour
             Vector3 IVT = I.transform.position;
             Vector3 JVT = JV.transform.position;
             
-            Vector2 JVI = new Vector2(JVT.x-IVT.x, JVT.z-IVT.z);
+            Vector2 JVI = new Vector2(JVT.x-IVT.x, JVT.y-IVT.y);
             float Amin = VecAngle(V, JVI);
             Debug.Log(Amin);
             Inew = JV;
@@ -101,7 +101,7 @@ public class JarvisManager : MonoBehaviour
                 if (Points[j] != I)
                 {
                     Debug.Log(Points[j].name);
-                    float A = VecAngle(V,new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.z-Points[j].transform.position.z));
+                    float A = VecAngle(V,new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.y-Points[j].transform.position.y));
                     if (Amin > A)
                     {
                         Amin = A;
@@ -111,7 +111,7 @@ public class JarvisManager : MonoBehaviour
             }
 
             V = new Vector3(Inew.transform.position.x - I.transform.position.x,
-                Inew.transform.position.z - I.transform.position.z);
+                Inew.transform.position.y - I.transform.position.y);
             I = Inew;
             Debug.Log(I.name);
             //break;
@@ -123,9 +123,13 @@ public class JarvisManager : MonoBehaviour
 
     public float VecAngle(Vector2 a, Vector2 b)
     {
-        float res;
-        res = Mathf.Acos((Vector2.Dot(a, b) / (a.magnitude * b.magnitude)));
+        float res = Mathf.Acos((Vector2.Dot(a, b) / (a.magnitude * b.magnitude)));
         return res;
+    }
+
+    public float VecNorm(Vector2 a)
+    {
+        return Mathf.Sqrt(Mathf.Pow(a.x,2)+Mathf.Pow(a.y, 2));
     }
     
     /*public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)

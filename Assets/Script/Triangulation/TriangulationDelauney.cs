@@ -22,7 +22,7 @@ public class TriangulationDelauney : MonoBehaviour
 
             if (isLooping > 10000)
             {
-                Debug.Log("BOUCLE INFINIE ALERTE JAI DIT!!!!");
+                Debug.Log("BOUCLE INFINIE ");
                 break;
             }
 

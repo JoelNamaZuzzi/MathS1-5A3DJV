@@ -17,10 +17,10 @@ public class DrawLine : MonoBehaviour
     
     [SerializeField] private Vector3 mousePos;
     [SerializeField] private Vector3 worldPos;
-    List<TScript.Triangle> triangles = new List<TScript.Triangle>();
+    public List<TScript.Triangle> triangles = new List<TScript.Triangle>();
     private int counter = 1;
     
-    private bool isIncre = false;
+    public bool isIncre = false;
     
     // Start is called before the first frame update
     void Start()
@@ -76,10 +76,10 @@ public class DrawLine : MonoBehaviour
         trianglesDelauney = TriangulationDelauney.TriangulationFlippingEdges(triangles);
         DrawLineTriangle(trianglesDelauney);
         
-        for (int i = 0; i < trianglesDelauney.Count - 1; i++)
+      /*  for (int i = 0; i < trianglesDelauney.Count - 1; i++)
         {
             Debug.LogErrorFormat(trianglesDelauney[i].v1.position+" "+trianglesDelauney[i].v2.position+" "+trianglesDelauney[i].v3.position+"\n");
-        }
+        }*/
     }
 
     public void DrawTriangleLinesTriangulationIncre()
@@ -89,10 +89,10 @@ public class DrawLine : MonoBehaviour
 
         // Debug.Log(triangles.Count);
         DrawLineTriangle(triangles);
-        for (int i = 0; i < triangles.Count - 1; i++)
+     /*   for (int i = 0; i < triangles.Count - 1; i++)
         {
             Debug.LogWarningFormat(triangles[i].v1.position+" "+triangles[i].v2.position+" "+triangles[i].v3.position+"\n");
-        }
+        }*/
     }
 
     public void DrawLineTriangle(List<TScript.Triangle> tri)
@@ -103,21 +103,21 @@ public class DrawLine : MonoBehaviour
             //points[i].GetComponent<LineRenderer>().positionCount = 4;
             lr.positionCount += 2;
             lr.SetPosition(lr.positionCount -2, tri[j].v1.position);
-            Debug.LogWarningFormat((lr.positionCount -2).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
             lr.SetPosition(lr.positionCount -1, tri[j].v2.position);
-            Debug.LogWarningFormat((lr.positionCount -1).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
             lr.positionCount += 2;
             
             lr.SetPosition(lr.positionCount -2, tri[j].v2.position);
-            Debug.LogWarningFormat((lr.positionCount -2).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
             lr.SetPosition(lr.positionCount -1, tri[j].v3.position);
-            Debug.LogWarningFormat((lr.positionCount -1).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
             lr.positionCount += 2;
             
             lr.SetPosition(lr.positionCount -2, tri[j].v3.position);
-            Debug.LogWarningFormat((lr.positionCount -2).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
             lr.SetPosition(lr.positionCount -1, tri[j].v1.position);
-            Debug.LogWarningFormat((lr.positionCount -1).ToString());
+          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
             //lr.positionCount += 2;
         }
     }
@@ -181,7 +181,7 @@ public class DrawLine : MonoBehaviour
                     {
                         continue;
                     }
-                    Debug.LogError(AreEdgesIntersecting(edgeToMidPoint, edges[k]));
+                 //   Debug.LogError(AreEdgesIntersecting(edgeToMidPoint, edges[k]));
                     if (AreEdgesIntersecting(edgeToMidPoint, edges[k]))
                     {
                         SeeEdge = false;

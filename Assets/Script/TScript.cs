@@ -57,8 +57,7 @@ public class TScript : MonoBehaviour
         //The edge going in the opposite direction
         public HalfEdge oppositeEdge;
 
-        //This structure assumes we have a vertex class with a reference to a half edge going from that vertex
-        //and a face (triangle) class with a reference to a half edge which is a part of this face 
+        
         public HalfEdge(Vertex v)
         {
             this.v = v;
@@ -94,7 +93,7 @@ public class TScript : MonoBehaviour
             this.halfEdge = halfEdge;
         }
 
-        //Change orientation of triangle from cw -> ccw or ccw -> cw
+        
         public void ChangeOrientation()
         {
             Vertex temp = this.v1;
@@ -139,6 +138,37 @@ public class TScript : MonoBehaviour
             v1 = v2;
 
             v2 = temp;
+        }
+    }
+    
+    public class VoronoiEdge
+    {
+        //vertice du Voronoi
+        public Vector3 v1;
+        public Vector3 v2;
+
+        //centre de l'Aire d'influance
+        public Vector3 noyau;
+
+        public VoronoiEdge(Vector3 v1, Vector3 v2, Vector3 noyau)
+        {
+            this.v1 = v1;
+            this.v2 = v2;
+
+            this.noyau = noyau;
+        }
+    }
+    
+    public class VoronoiRegion
+    {
+        
+        public Vector3 noyau;
+
+        public List<VoronoiEdge> edges = new List<VoronoiEdge>();
+
+        public VoronoiRegion(Vector3 noyau)
+        {
+            this.noyau = noyau;
         }
     }
 

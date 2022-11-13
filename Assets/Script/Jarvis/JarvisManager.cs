@@ -71,7 +71,7 @@ public class JarvisManager : MonoBehaviour
                 break;
             }
         }*/
-        Vector3 V = new Vector3(0, 0, -1);
+        Vector2 V = new Vector2(0, -1);
         GameObject I = FindLowestX();
         do
         {
@@ -92,8 +92,7 @@ public class JarvisManager : MonoBehaviour
             Vector3 JVT = JV.transform.position;
             
             Vector2 JVI = new Vector2(JVT.x-IVT.x, JVT.z-IVT.z);
-            
-            float Amin = Vector2.Angle(new Vector2(V.x, V.z), JVI);
+            float Amin = VecAngle(V, JVI);
             Debug.Log(Amin);
             Inew = JV;
             
@@ -102,7 +101,7 @@ public class JarvisManager : MonoBehaviour
                 if (Points[j] != I)
                 {
                     Debug.Log(Points[j].name);
-                    float A = Vector2.Angle(new Vector2(V.x, V.z), new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.z-Points[j].transform.position.z));
+                    float A = VecAngle(V,new Vector2(I.transform.position.x-Points[j].transform.position.x, I.transform.position.z-Points[j].transform.position.z));
                     if (Amin > A)
                     {
                         Amin = A;
@@ -111,15 +110,22 @@ public class JarvisManager : MonoBehaviour
                 }
             }
 
-            V = new Vector3(Inew.transform.position.x - I.transform.position.x, 0.0f,
+            V = new Vector3(Inew.transform.position.x - I.transform.position.x,
                 Inew.transform.position.z - I.transform.position.z);
             I = Inew;
             Debug.Log(I.name);
-            break;
+            //break;
 
         } while (I != P[0]);
         
         Debug.Log("end");
+    }
+
+    public float VecAngle(Vector2 a, Vector2 b)
+    {
+        float res;
+        res = Mathf.Acos((Vector2.Dot(a, b) / (a.magnitude * b.magnitude)));
+        return res;
     }
     
     /*public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)

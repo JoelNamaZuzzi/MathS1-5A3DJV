@@ -17,11 +17,15 @@ public class JarvisManager : MonoBehaviour
 
     public GameObject FindLowestX()
     {
+        ///Init des variables
         GameObject FirstPts=null;
         float curlowX=10000.0f;
         float curlowY = 10000.0f;
+        
+        ///on regarde tout nos pts
         foreach (GameObject pts in Points)
         {
+            ///Si la position est plus à gauche que le minimum stocke
             if (pts.transform.position.x < curlowX)
             {
                 FirstPts = pts;
@@ -30,7 +34,8 @@ public class JarvisManager : MonoBehaviour
                 curlowY = position.y;
                 //Debug.Log(FirstPts.name);
             }
-            else if (Math.Abs(pts.transform.position.x - curlowX) < 0.1f)
+            ///sinon si c'est au meme x, le y est il plus bas ?
+            else if (Math.Abs(pts.transform.position.x - curlowX) < 0.01f)
             {
                 if (pts.transform.position.y < curlowY)
                 {
@@ -48,30 +53,42 @@ public class JarvisManager : MonoBehaviour
 
     public void JarvisWalk()
     {
+        ///On recupere le 1er pts
         CurPts = FindLowestX();
+        
+        ///on entre dans la boucle
         while (true)
         {
+            ///Ajout du pts selectionne
             P.Add(CurPts);
+            //init du point de comparaison au premier point de l'enveloppe
             endPoint = Points[0];
-
+            
+            ///On regarde tous nos points
             for (int j = 1; j < Points.Count; j++)
             {
+                ///On regarde 2 chose, d'une si le point de comparaison et le courant sont les meme, si c'est le cas on change le pts de comparaison
+                ///Ou on regarde si le point est a gauche du vecteur pts courant/pts comparaison 
                 if ((endPoint == CurPts) || (CounterClock(CurPts.transform.position, endPoint.transform.position,
                         Points[j].transform.position) < 0))
                 {
+                    ///On met a jour le pts de comparaison
                     endPoint = Points[j];
                 }
             }
-
+            ///On met a jour le pts courant
             CurPts = endPoint;
-            Debug.Log(CurPts.name);
+            //Debug.Log(CurPts.name);
             if (endPoint == P[0])
             {
-                Debug.Log("End");
-                Debug.Log(endPoint.name);
+                ///On ajoute encore le pts pour le rendu
+                P.Add(CurPts);
+                //Debug.Log("End");
+                //Debug.Log(endPoint.name);
                 break;
             }
         }
+        ///On rend l'enveloppe
         LnRdr();
         /*Vector2 V = new Vector2(0, -1);
         GameObject I = FindLowestX();
@@ -154,7 +171,6 @@ public class JarvisManager : MonoBehaviour
             GameObject Pts = P[i];
             LineRenderer lndr = Pts.AddComponent<LineRenderer>();
             lndr.material = new Material(Shader.Find("Sprites/Default"));
-            lndr.SetColors(Color.white, new Color(1,1,1,0));
             lndr.startColor = Color.blue;
             lndr.endColor = Color.blue;
             lndr.startWidth = 0.1f;
@@ -164,19 +180,6 @@ public class JarvisManager : MonoBehaviour
             lndr.SetPosition(0, Pts.transform.position);
             lndr.SetPosition(1, P[i+1].transform.position);
         }
-        
-        GameObject Ptlast = P[P.Count-1];
-        LineRenderer lndrlast = Ptlast.AddComponent<LineRenderer>();
-        lndrlast.material = new Material(Shader.Find("Sprites/Default"));
-        lndrlast.SetColors(Color.white, new Color(1,1,1,0));
-        lndrlast.startColor = Color.blue;
-        lndrlast.endColor = Color.blue;
-        lndrlast.startWidth = 0.1f;
-        lndrlast.endWidth = 0.1f;
-        lndrlast.positionCount = 2;
-        lndrlast.useWorldSpace = true;
-        lndrlast.SetPosition(0, Ptlast.transform.position);
-        lndrlast.SetPosition(1, P[0].transform.position);
     }
     
     public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)

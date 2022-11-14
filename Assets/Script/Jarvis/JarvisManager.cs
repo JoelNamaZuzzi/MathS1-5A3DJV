@@ -68,7 +68,7 @@ public class JarvisManager : MonoBehaviour
             for (int j = 1; j < Points.Count; j++)
             {
                 ///On regarde 2 chose, d'une si le point de comparaison et le courant sont les meme, si c'est le cas on change le pts de comparaison
-                ///Ou on regarde si le point est a gauche du vecteur pts courant/pts comparaison 
+                ///Ou on regarde si le point est a gauche du vecteur pts courant/pts comparaison
                 if ((endPoint == CurPts) || (CounterClock(CurPts.transform.position, endPoint.transform.position,
                         Points[j].transform.position) < 0))
                 {

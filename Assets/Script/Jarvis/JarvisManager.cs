@@ -9,7 +9,7 @@ public class JarvisManager : MonoBehaviour
     public List<GameObject> Points = new List<GameObject>();
     private GameObject CurPts;
     public List<GameObject> P = new List<GameObject>();
-    public GameObject endPoint;
+    private GameObject endPoint=null;
     private void Start()
     {
         JarvisWalk();
@@ -48,20 +48,21 @@ public class JarvisManager : MonoBehaviour
 
     public void JarvisWalk()
     {
-        /*CurPts = FindLowestX();
-        endPoint.transform.position = Vector3.zero;
+        CurPts = FindLowestX();
         while (true)
         {
             P.Add(CurPts);
             endPoint = Points[0];
-            
-            for (var j = 1; j<Points.Count; j++)
+
+            for (int j = 1; j < Points.Count; j++)
             {
-                if ((endPoint == CurPts) || (CounterClock(CurPts.transform.position, endPoint.transform.position, Points[j].transform.position)<0)) {
+                if ((endPoint == CurPts) || (CounterClock(CurPts.transform.position, endPoint.transform.position,
+                        Points[j].transform.position) < 0))
+                {
                     endPoint = Points[j];
                 }
             }
-            
+
             CurPts = endPoint;
             Debug.Log(CurPts.name);
             if (endPoint == P[0])
@@ -70,8 +71,9 @@ public class JarvisManager : MonoBehaviour
                 Debug.Log(endPoint.name);
                 break;
             }
-        }*/
-        Vector2 V = new Vector2(0, -1);
+        }
+        LnRdr();
+        /*Vector2 V = new Vector2(0, -1);
         GameObject I = FindLowestX();
         do
         {
@@ -133,16 +135,52 @@ public class JarvisManager : MonoBehaviour
 
     public float VecAngle(Vector2 a, Vector2 b)
     {
-        return Mathf.Acos(Vector2.Dot(a, b) / (VecNorm(a) * VecNorm(b)));
+        float res = Mathf.Acos(((a.x*b.x)+(a.y*b.y)) / (VecNorm(a) * VecNorm(b)));
+        //Debug.Log(res);
+        return res;
     }
 
     public float VecNorm(Vector2 a)
     {
         return Mathf.Sqrt(Mathf.Pow(a.x,2)+Mathf.Pow(a.y, 2));
+    }*/
+    }
+
+    public void LnRdr()
+    {
+        for (int i = 0; i < P.Count-1; i++)
+        {
+            
+            GameObject Pts = P[i];
+            LineRenderer lndr = Pts.AddComponent<LineRenderer>();
+            lndr.material = new Material(Shader.Find("Sprites/Default"));
+            lndr.SetColors(Color.white, new Color(1,1,1,0));
+            lndr.startColor = Color.blue;
+            lndr.endColor = Color.blue;
+            lndr.startWidth = 0.1f;
+            lndr.endWidth = 0.1f;
+            lndr.positionCount = 2;
+            lndr.useWorldSpace = true;
+            lndr.SetPosition(0, Pts.transform.position);
+            lndr.SetPosition(1, P[i+1].transform.position);
+        }
+        
+        GameObject Ptlast = P[P.Count-1];
+        LineRenderer lndrlast = Ptlast.AddComponent<LineRenderer>();
+        lndrlast.material = new Material(Shader.Find("Sprites/Default"));
+        lndrlast.SetColors(Color.white, new Color(1,1,1,0));
+        lndrlast.startColor = Color.blue;
+        lndrlast.endColor = Color.blue;
+        lndrlast.startWidth = 0.1f;
+        lndrlast.endWidth = 0.1f;
+        lndrlast.positionCount = 2;
+        lndrlast.useWorldSpace = true;
+        lndrlast.SetPosition(0, Ptlast.transform.position);
+        lndrlast.SetPosition(1, P[0].transform.position);
     }
     
-    /*public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)
+    public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)
     {
-        return Mathf.Acos((p2.x - p1.x) * (p3.z - p1.z) - (p3.x - p1.x) * (p2.z - p1.z));
-    }*/
+        return Mathf.Sign((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
+    }
 }

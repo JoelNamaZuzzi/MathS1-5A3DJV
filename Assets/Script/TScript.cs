@@ -161,11 +161,10 @@ public class TScript : MonoBehaviour
     
     public class VoronoiRegion
     {
-        
         public Vector3 noyau;
 
         public List<VoronoiEdge> edges = new List<VoronoiEdge>();
-
+    
         public VoronoiRegion(Vector3 noyau)
         {
             this.noyau = noyau;

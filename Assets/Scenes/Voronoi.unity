@@ -241,6 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dl: {fileID: 1559241108}
   voronoiPrefab: {fileID: 813120684210589175, guid: 690483d3bdd9ef542a87def1e1bd5312, type: 3}
+  cellPrefab: {fileID: 8852090939850515339, guid: 0660befef47f61340b9f5c01b54667a7, type: 3}
+  centerList: []
 --- !u!114 &1559241106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,7 +509,7 @@ LineRenderer:
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0

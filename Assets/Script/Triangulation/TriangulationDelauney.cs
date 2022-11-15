@@ -7,7 +7,7 @@ public class TriangulationDelauney : MonoBehaviour
 {
     public static List<TScript.Triangle> TriangulationFlippingEdges(List<TScript.Triangle> tri)
     {
-        Debug.Log("inside");
+        
         List<TScript.Triangle> triDelauney = new List<TScript.Triangle>(tri);
 
         List<TScript.HalfEdge> halfEdges = HalfEdge.TransformTriangleToHeHalfEdges(triDelauney);

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
@@ -27,12 +29,28 @@ public class Graham : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetPoint();
+        //GetPoint();
+        //GetBaricentre();
+        //Scan();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            lineRenderer.positionCount = 0;
+            ProcessGraham();
+        }
+    }
+
+    void ProcessGraham()
+    {
+        points = GetComponent<DrawLine>().points;
         GetBaricentre();
         Scan();
     }
-
-
+    
+    
     public void GetPoint()
     {
         for (int i = 0; i < conteneur.transform.childCount; i++)
@@ -185,10 +203,5 @@ public class Graham : MonoBehaviour
     {
         return current.Previous ?? current.List.Last;
     }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

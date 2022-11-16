@@ -9,7 +9,7 @@ public class DrawLine : MonoBehaviour
     public TScript ts;
     public TriangulationDelauney td;
     [SerializeField] private GameObject point;
-    [SerializeField] private List<GameObject> points = new List<GameObject>();
+    public List<GameObject> points = new List<GameObject>();
     [SerializeField] private List<GameObject> pointsTriangulationIncre = new List<GameObject>();
 
     [SerializeField] private Camera camera;

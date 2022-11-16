@@ -10,9 +10,14 @@ public class JarvisManager : MonoBehaviour
     private GameObject CurPts;
     public List<GameObject> P = new List<GameObject>();
     private GameObject endPoint=null;
-    private void Start()
+    [SerializeField] private LineRenderer lnrdrHull;
+
+    private void Update()
     {
-        //JarvisWalk();
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            JarvisWalk();
+        }
     }
 
     public GameObject FindLowestX()
@@ -53,6 +58,9 @@ public class JarvisManager : MonoBehaviour
 
     public void JarvisWalk()
     {
+        PtsClear();
+        P.Clear();
+        Points = GetComponent<DrawLine>().points;
         ///On recupere le 1er pts
         CurPts = FindLowestX();
         
@@ -167,23 +175,20 @@ public class JarvisManager : MonoBehaviour
     {
         for (int i = 0; i < P.Count-1; i++)
         {
-            
-            GameObject Pts = P[i];
-            LineRenderer lndr = Pts.AddComponent<LineRenderer>();
-            lndr.material = new Material(Shader.Find("Sprites/Default"));
-            lndr.startColor = Color.blue;
-            lndr.endColor = Color.blue;
-            lndr.startWidth = 0.1f;
-            lndr.endWidth = 0.1f;
-            lndr.positionCount = 2;
-            lndr.useWorldSpace = true;
-            lndr.SetPosition(0, Pts.transform.position);
-            lndr.SetPosition(1, P[i+1].transform.position);
+            lnrdrHull.positionCount += 1;
+            lnrdrHull.SetPosition(i, P[i].transform.position);
         }
+        lnrdrHull.positionCount += 1;
+        lnrdrHull.SetPosition(P.Count-1, P[P.Count-1].transform.position);
     }
     
     public static float CounterClock(Vector3 p1, Vector3 p2, Vector3 p3)
     {
         return Mathf.Sign((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
+    }
+
+    private void PtsClear()
+    {
+        lnrdrHull.positionCount = 0;
     }
 }

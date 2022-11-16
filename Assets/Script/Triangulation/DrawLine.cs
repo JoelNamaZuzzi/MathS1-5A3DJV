@@ -8,7 +8,8 @@ public class DrawLine : MonoBehaviour
 {
     public TScript ts;
     public TriangulationDelauney td;
-    [SerializeField] private GameObject point;
+    [SerializeField] public GameObject point;
+    [SerializeField] private GameObject line;
     public List<GameObject> points = new List<GameObject>();
     [SerializeField] private List<GameObject> pointsTriangulationIncre = new List<GameObject>();
 
@@ -58,7 +59,7 @@ public class DrawLine : MonoBehaviour
             DrawTriangleLinesTriangulationIncre();
             isIncre = true;
         }
-        
+
         if (Input.GetKeyDown(KeyCode.D) && isIncre == true)
         {
             DrawTriangleLinesTriangulationDelauney();
@@ -76,7 +77,7 @@ public class DrawLine : MonoBehaviour
         trianglesDelauney = TriangulationDelauney.TriangulationFlippingEdges(triangles);
         DrawLineTriangle(trianglesDelauney);
         
-      /*  for (int i = 0; i < trianglesDelauney.Count - 1; i++)
+        /*for (int i = 0; i < trianglesDelauney.Count; i++)
         {
             Debug.LogErrorFormat(trianglesDelauney[i].v1.position+" "+trianglesDelauney[i].v2.position+" "+trianglesDelauney[i].v3.position+"\n");
         }*/
@@ -89,7 +90,7 @@ public class DrawLine : MonoBehaviour
 
         // Debug.Log(triangles.Count);
         DrawLineTriangle(triangles);
-     /*   for (int i = 0; i < triangles.Count - 1; i++)
+        /*for (int i = 0; i < triangles.Count; i++)
         {
             Debug.LogWarningFormat(triangles[i].v1.position+" "+triangles[i].v2.position+" "+triangles[i].v3.position+"\n");
         }*/
@@ -97,28 +98,38 @@ public class DrawLine : MonoBehaviour
 
     public void DrawLineTriangle(List<TScript.Triangle> tri)
     {
+        foreach (GameObject foundObj in GameObject.FindGameObjectsWithTag("Triangle"))
+        {
+            Destroy(foundObj);
+        }
+        Debug.Log(tri.Count);
         lr.positionCount = 0;
         for (int j = 0; j < tri.Count; j++)
         {
-            //points[i].GetComponent<LineRenderer>().positionCount = 4;
-            lr.positionCount += 2;
-            lr.SetPosition(lr.positionCount -2, tri[j].v1.position);
-          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
-            lr.SetPosition(lr.positionCount -1, tri[j].v2.position);
-          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
-            lr.positionCount += 2;
-            
-            lr.SetPosition(lr.positionCount -2, tri[j].v2.position);
-          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
-            lr.SetPosition(lr.positionCount -1, tri[j].v3.position);
-          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
-            lr.positionCount += 2;
-            
-            lr.SetPosition(lr.positionCount -2, tri[j].v3.position);
-          //  Debug.LogWarningFormat((lr.positionCount -2).ToString());
-            lr.SetPosition(lr.positionCount -1, tri[j].v1.position);
-          //  Debug.LogWarningFormat((lr.positionCount -1).ToString());
+            GameObject newTriangle = Instantiate(line, new Vector3(0, 0, 0), Quaternion.identity);
+            newTriangle.AddComponent<LineRenderer>();
+            newTriangle.GetComponent<LineRenderer>().positionCount = 0;
             //lr.positionCount += 2;
+            newTriangle.GetComponent<LineRenderer>().positionCount += 2;
+
+            //lr.SetPosition(lr.positionCount -2, tri[j].v1.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 2, tri[j].v1.position);
+            //lr.SetPosition(lr.positionCount -1, tri[j].v2.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 1, tri[j].v2.position);
+            //lr.positionCount += 2;
+            newTriangle.GetComponent<LineRenderer>().positionCount += 2;
+
+            //lr.SetPosition(lr.positionCount -2, tri[j].v2.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 2, tri[j].v2.position);
+            //lr.SetPosition(lr.positionCount -1, tri[j].v3.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 1, tri[j].v3.position);
+            //lr.positionCount += 2;
+            newTriangle.GetComponent<LineRenderer>().positionCount += 2;
+
+            //lr.SetPosition(lr.positionCount -2, tri[j].v3.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 2, tri[j].v3.position);
+            //lr.SetPosition(lr.positionCount -1, tri[j].v1.position);
+            newTriangle.GetComponent<LineRenderer>().SetPosition(newTriangle.GetComponent<LineRenderer>().positionCount - 1, tri[j].v1.position);
         }
     }
 

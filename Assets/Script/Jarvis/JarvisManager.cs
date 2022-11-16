@@ -12,7 +12,7 @@ public class JarvisManager : MonoBehaviour
     private GameObject endPoint=null;
     private void Start()
     {
-        JarvisWalk();
+        //JarvisWalk();
     }
 
     public GameObject FindLowestX()

@@ -21,7 +21,7 @@ public class Voronoi2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V) )
         {
             delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.triangles);
-            voronoi = VoronoiDiagram(delaunayTriangle);
+             VoronoiDiagram(delaunayTriangle);
           //  DrawVoronoi(voronoi);
         }
     }
@@ -67,7 +67,7 @@ public class Voronoi2D : MonoBehaviour
         } 
     } */
 
-    public List<TScript.VoronoiRegion> VoronoiDiagram(List<TScript.Triangle> delaunayTriangulation)
+    public void VoronoiDiagram(List<TScript.Triangle> delaunayTriangulation)
     {
 
         List<TScript.VoronoiEdge> voronoiEdges = new List<TScript.VoronoiEdge>();
@@ -111,9 +111,6 @@ public class Voronoi2D : MonoBehaviour
                 Vector3 mediatrice2 = CalculMediatrice(pos2, pos3);
                 Vector3 mediatrice3 = CalculMediatrice(pos3, pos1);
                 
-              //  DrawLineVoronoi(centerList[i], mediatrice1);
-              //  DrawLineVoronoi(centerList[i], mediatrice2);
-              //  DrawLineVoronoi(centerList[i], mediatrice3); 
                 
                 Debug.Log("triangle init : " + pos1 + " " + pos2 + " " + pos3);
                 Debug.Log("edge1" + edge1.v.position + edge1.nextEdge.v.position);
@@ -129,26 +126,7 @@ public class Voronoi2D : MonoBehaviour
             // on determine les régions d'incidence
 
             List<TScript.VoronoiRegion> ListeVoronoiRegions = new List<TScript.VoronoiRegion>();
-            /*
-            for (int i = 0; i < voronoiEdges.Count; i++)
-            {
-                //On verifie si il existe déja la région a laquel appartient l'edge
 
-                int numeroRegion = checkIfRegion(voronoiEdges[i], ListeVoronoiRegions);
-
-                if (numeroRegion == -1)
-                {
-                    TScript.VoronoiRegion newRegion = new TScript.VoronoiRegion(voronoiEdges[i].noyau);
-                    ListeVoronoiRegions.Add(newRegion);
-                    newRegion.edges.Add(voronoiEdges[i]);
-                }
-                else
-                {
-                    ListeVoronoiRegions[numeroRegion].edges.Add(voronoiEdges[i]);
-                }
-            } 
-*/
-            return ListeVoronoiRegions;
         }
     
 
@@ -218,7 +196,6 @@ public class Voronoi2D : MonoBehaviour
                 return i;
             }
         }
-
         return -1;
     }
 

@@ -13,6 +13,8 @@ public class Voronoi2D : MonoBehaviour
     private List<TScript.VoronoiRegion> voronoi;
     [SerializeField] private GameObject voronoiPrefab;
     [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private List<GameObject> cells;
+    [SerializeField] private List<GameObject> voronoidPoints;
     [SerializeField] private List<Vector3> centerList = new List<Vector3>();
 
 
@@ -20,7 +22,7 @@ public class Voronoi2D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.V) )
         {
-            delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.triangles);
+            delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.trianglesDelauney);
              VoronoiDiagram(delaunayTriangle);
           //  DrawVoronoi(voronoi);
         }
@@ -73,8 +75,21 @@ public class Voronoi2D : MonoBehaviour
         List<TScript.VoronoiEdge> voronoiEdges = new List<TScript.VoronoiEdge>();
         
         Debug.Log("nb triangle :" + delaunayTriangulation.Count);
-        
-        
+
+        if (voronoidPoints.Count > 0)
+        {
+            for (int p_nb = 0; p_nb < voronoidPoints.Count; p_nb++)
+            {
+                Destroy(voronoidPoints[p_nb]);
+            }
+        }
+        if (cells.Count > 0)
+        {
+            for(int c_nb = 0; c_nb < cells.Count; c_nb++)
+            {
+                Destroy(cells[c_nb]);
+            }
+        }
         // On genere les point du voronoi par rapport aux edge recuperer de la triangulation de delaunay
         for (int i = 0; i < delaunayTriangulation.Count; i++)
         {
@@ -110,7 +125,9 @@ public class Voronoi2D : MonoBehaviour
                 Vector3 cercleCenter = CalculateCenterCircle(segmentAB, segmentBC, pos1, pos2, pos3);
                 Vector3 voronoiSommet = new Vector3(cercleCenter.x, cercleCenter.y, cercleCenter.z);
                 centerList.Add(voronoiSommet);
+
                 GameObject centerCircle = Instantiate(voronoiPrefab, voronoiSommet, Quaternion.identity);
+                voronoidPoints.Add(centerCircle);
                 centerCircle.name = "voroinoi Vertice N°" + i;
             }
             
@@ -212,6 +229,7 @@ public class Voronoi2D : MonoBehaviour
     private void DrawLineVoronoi(Vector3 centre , Vector3 mediatrice)
     {
         GameObject cellRenderer = Instantiate(cellPrefab, centre, Quaternion.identity);
+        cells.Add(cellRenderer);
         LineRenderer lr = cellRenderer.GetComponent<LineRenderer>();
         lr.SetPosition(0,centre);
         lr.SetPosition(1,mediatrice);

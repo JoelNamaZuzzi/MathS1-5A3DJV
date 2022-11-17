@@ -102,7 +102,7 @@ public class DrawLine : MonoBehaviour
         {
             Destroy(foundObj);
         }
-        Debug.Log(tri.Count);
+      //  Debug.Log(tri.Count);
         lr.positionCount = 0;
         for (int j = 0; j < tri.Count; j++)
         {

@@ -22,7 +22,7 @@ public class Voronoi2D : MonoBehaviour
         {
             delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.triangles);
             voronoi = VoronoiDiagram(delaunayTriangle);
-            DrawVoronoi(voronoi);
+          //  DrawVoronoi(voronoi);
         }
     }
 
@@ -119,20 +119,19 @@ public class Voronoi2D : MonoBehaviour
                 Vector3 mediatrice2 = CalculMediatrice(pos2, pos3);
                 Vector3 mediatrice3 = CalculMediatrice(pos3, pos1);
                 
-                DrawLineVoronoi(centerList[i], mediatrice1);
-                DrawLineVoronoi(centerList[i], mediatrice2);
-                DrawLineVoronoi(centerList[i], mediatrice3); 
+              //  DrawLineVoronoi(centerList[i], mediatrice1);
+              //  DrawLineVoronoi(centerList[i], mediatrice2);
+              //  DrawLineVoronoi(centerList[i], mediatrice3); 
                 
                 Debug.Log("triangle init : " + pos1 + " " + pos2 + " " + pos3);
-                
+                Debug.Log("edge1" + edge1.v.position + edge1.v.halfEdge.v.position);
                CheckTriangle(edge1,centerList[i],voronoiEdges,mediatrice1);
                
-               Debug.Log("edge2");
+               Debug.Log("edge2" +edge2.v.position + edge3.v.halfEdge.v.position);
                CheckTriangle(edge2, centerList[i], voronoiEdges,mediatrice2);
-               Debug.Log("edge3");
-               CheckTriangle(edge3, centerList[i], voronoiEdges,mediatrice3); 
-           
-            }
+               Debug.Log("edge3" +edge3.v.position + edge1.v.position);
+               CheckTriangle(edge3, centerList[i], voronoiEdges,mediatrice3);
+        }
 
 
 
@@ -185,7 +184,7 @@ public class Voronoi2D : MonoBehaviour
         // Si : Non , il n'y a pas de voisin donc on ne peut pas créer de Voronoi Edge
         if (edge.oppositeEdge == null)
         {
-            DrawLineVoronoi(voronoiSommet, mediatrice);
+            //DrawLineVoronoi(voronoiSommet, mediatrice);
             return;
         } 
         //SI oui , on calcule le centre de son cercle 
@@ -208,7 +207,7 @@ public class Voronoi2D : MonoBehaviour
             Vector3 voronoiSommetVoisin = CalculateCenterCircle(segmentAB,segmentBC,pos1,pos2,pos3);
             
             Debug.Log("triangle d'a coté : " + pos1 + " " + pos2 + " " + pos3);
-
+            Debug.Log("Centre cercle vosiin :" + voronoiSommetVoisin);
 
             TScript.VoronoiEdge vorEdge =
                 new TScript.VoronoiEdge(voronoiSommet, voronoiSommetVoisin, edge.prevEdge.v.position);

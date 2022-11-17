@@ -36,7 +36,7 @@ public class TScript : MonoBehaviour
         //Get 2d pos of this vertex
         public Vector2 GetPos2D_XZ()
         {
-            Vector2 pos_2d_xz = new Vector2(position.x, position.z);
+            Vector2 pos_2d_xz = new Vector2(position.x, position.y);
 
             return pos_2d_xz;
         }

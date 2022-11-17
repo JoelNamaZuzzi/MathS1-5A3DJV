@@ -75,9 +75,9 @@ public class HalfEdge : MonoBehaviour
         {
             TScript.Triangle tri = triangles[i];
 
-            Vector2 v1 = new Vector2(tri.v1.position.x, tri.v1.position.z);
-            Vector2 v2 = new Vector2(tri.v2.position.x, tri.v2.position.z);
-            Vector2 v3 = new Vector2(tri.v3.position.x, tri.v3.position.z);
+            Vector2 v1 = new Vector2(tri.v1.position.x, tri.v1.position.y);
+            Vector2 v2 = new Vector2(tri.v2.position.x, tri.v2.position.y);
+            Vector2 v3 = new Vector2(tri.v3.position.x, tri.v3.position.y);
 
             if (!IsTriangleOrientedClockwise(v1, v2, v3))
             {

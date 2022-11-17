@@ -26,7 +26,7 @@ public class Voronoi2D : MonoBehaviour
         }
     }
 
-    private void DrawVoronoi(List<TScript.VoronoiRegion> voronoiRegions)
+  /*  private void DrawVoronoi(List<TScript.VoronoiRegion> voronoiRegions)
     {
        Debug.Log("voronoiRegions.Count" + voronoiRegions.Count);
         for (int i = 0; i < voronoiRegions.Count; i++)
@@ -65,7 +65,7 @@ public class Voronoi2D : MonoBehaviour
             }
             lr.SetPosition(vertices.Count,vertices[0]);
         } 
-    }
+    } */
 
     public List<TScript.VoronoiRegion> VoronoiDiagram(List<TScript.Triangle> delaunayTriangulation)
     {
@@ -104,15 +104,7 @@ public class Voronoi2D : MonoBehaviour
                 GameObject centerCircle = Instantiate(voronoiPrefab, voronoiSommet, Quaternion.identity);
                 centerCircle.name = "voroinoi Vertice N°" + i;
             }
-
-           /* Vector3 mediatrice1 = CalculMediatrice(pos1, pos2);
-            Vector3 mediatrice2 = CalculMediatrice(pos2, pos3);
-            Vector3 mediatrice3 = CalculMediatrice(pos3, pos1);
-*/
             
-
-        
- 
            //On verifie les 3 edges du triangle si il y a d'autre triangles aux alentour pour determiner les liaisons
 
                 Vector3 mediatrice1 = CalculMediatrice(pos1, pos2);
@@ -124,13 +116,12 @@ public class Voronoi2D : MonoBehaviour
               //  DrawLineVoronoi(centerList[i], mediatrice3); 
                 
                 Debug.Log("triangle init : " + pos1 + " " + pos2 + " " + pos3);
-                Debug.Log("edge1" + edge1.v.position + edge1.v.halfEdge.v.position);
-               CheckTriangle(edge1,centerList[i],voronoiEdges,mediatrice1);
-               
-               Debug.Log("edge2" +edge2.v.position + edge3.v.halfEdge.v.position);
-               CheckTriangle(edge2, centerList[i], voronoiEdges,mediatrice2);
-               Debug.Log("edge3" +edge3.v.position + edge1.v.position);
-               CheckTriangle(edge3, centerList[i], voronoiEdges,mediatrice3);
+                Debug.Log("edge1" + edge1.v.position + edge1.nextEdge.v.position);
+                CheckTriangle(edge1, centerList[i], voronoiEdges, mediatrice1);
+                Debug.Log("edge2" +edge2.v.position + edge2.nextEdge.v.position);
+                CheckTriangle(edge2, centerList[i], voronoiEdges,mediatrice2);
+                Debug.Log("edge3" +edge3.v.position + edge3.nextEdge.v.position);
+                CheckTriangle(edge3, centerList[i], voronoiEdges,mediatrice3);
         }
 
 
@@ -138,7 +129,7 @@ public class Voronoi2D : MonoBehaviour
             // on determine les régions d'incidence
 
             List<TScript.VoronoiRegion> ListeVoronoiRegions = new List<TScript.VoronoiRegion>();
-
+            /*
             for (int i = 0; i < voronoiEdges.Count; i++)
             {
                 //On verifie si il existe déja la région a laquel appartient l'edge
@@ -156,7 +147,7 @@ public class Voronoi2D : MonoBehaviour
                     ListeVoronoiRegions[numeroRegion].edges.Add(voronoiEdges[i]);
                 }
             } 
-
+*/
             return ListeVoronoiRegions;
         }
     
@@ -247,6 +238,11 @@ public class Voronoi2D : MonoBehaviour
         LineRenderer lr = cellRenderer.GetComponent<LineRenderer>();
         lr.SetPosition(0,centre);
         lr.SetPosition(1,mediatrice);
+    }
+
+    public bool IsColineaire(Vector3 a, Vector3 b)
+    {
+        return (a - b).magnitude < 0.000001f;
     }
    
 }

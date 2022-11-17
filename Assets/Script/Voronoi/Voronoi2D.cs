@@ -88,6 +88,15 @@ public class Voronoi2D : MonoBehaviour
             Vector3 pos2 = edge2.v.position;
             Vector3 pos3 = edge3.v.position;
 
+            bool Colineaire1 = IsColineaire(pos1, pos2);
+            bool Colineaire2 = IsColineaire(pos2, pos3);
+            bool Colineaire3 = IsColineaire(pos3, pos1);
+                
+            if( Colineaire1 && Colineaire2 && Colineaire3 )
+            {
+                
+            }
+            
 
             float segmentAB = (pos2.y - pos1.y) / (pos2.x - pos1.x);
             float segmentBC = (pos3.y - pos2.y) / (pos3.x - pos2.x);
@@ -105,13 +114,13 @@ public class Voronoi2D : MonoBehaviour
                 centerCircle.name = "voroinoi Vertice N°" + i;
             }
             
-           //On verifie les 3 edges du triangle si il y a d'autre triangles aux alentour pour determiner les liaisons
-
+           
+                // On calcul les mediatrice du triangle actuel
                 Vector3 mediatrice1 = CalculMediatrice(pos1, pos2);
                 Vector3 mediatrice2 = CalculMediatrice(pos2, pos3);
                 Vector3 mediatrice3 = CalculMediatrice(pos3, pos1);
                 
-                
+                //On verifie les 3 edges du triangle si il y a d'autre triangles aux alentour pour determiner les liaisons
                 Debug.Log("triangle init : " + pos1 + " " + pos2 + " " + pos3);
                 Debug.Log("edge1" + edge1.v.position + edge1.nextEdge.v.position);
                 CheckTriangle(edge1, centerList[i], voronoiEdges, mediatrice1);
@@ -121,22 +130,13 @@ public class Voronoi2D : MonoBehaviour
                 CheckTriangle(edge3, centerList[i], voronoiEdges,mediatrice3);
         }
 
-
-
-            // on determine les régions d'incidence
-
-            List<TScript.VoronoiRegion> ListeVoronoiRegions = new List<TScript.VoronoiRegion>();
-
-        }
+    }
     
 
     public Vector3 CalculateCenterCircle(float segmentAB, float segmentBC,Vector3 pointA, Vector3 pointB, Vector3 pointC)
     {
         
         Vector3 center = new Vector3();
-
-
-
         center.x = (segmentAB * segmentBC * (pointA.y - pointC.y) + segmentBC * (pointA.x + pointB.x) -
                     segmentAB * (pointB.x + pointC.x)) / (2 * (segmentBC - segmentAB));
 
@@ -153,7 +153,7 @@ public class Voronoi2D : MonoBehaviour
         // Si : Non , il n'y a pas de voisin donc on ne peut pas créer de Voronoi Edge
         if (edge.oppositeEdge == null)
         {
-            //DrawLineVoronoi(voronoiSommet, mediatrice);
+            DrawLineVoronoi(voronoiSommet, mediatrice);
             return;
         } 
         //SI oui , on calcule le centre de son cercle 

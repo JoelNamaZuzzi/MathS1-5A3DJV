@@ -128,7 +128,7 @@ public class TriangulationDelauney : MonoBehaviour
             isConvex = true;
         }
 
-
+        Debug.LogErrorFormat(isConvex.ToString());
         return isConvex;
     }
     

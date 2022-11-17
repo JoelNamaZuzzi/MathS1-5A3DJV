@@ -19,6 +19,7 @@ public class DrawLine : MonoBehaviour
     [SerializeField] private Vector3 mousePos;
     [SerializeField] private Vector3 worldPos;
     public List<TScript.Triangle> triangles = new List<TScript.Triangle>();
+    public List<TScript.Triangle> trianglesDelauney = new List<TScript.Triangle>();
     private int counter = 1;
     
     public bool isIncre = false;
@@ -54,27 +55,38 @@ public class DrawLine : MonoBehaviour
             counter++;
         }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                points.Remove(hit.transform.gameObject);
+                pointsTriangulationIncre.Remove(hit.transform.gameObject);
+                Destroy(hit.transform.gameObject);
+
+                DrawTriangleLinesTriangulationDelauney();
+            }
+        }
+
+            if (Input.GetKeyDown(KeyCode.T))
         {
             DrawTriangleLinesTriangulationIncre();
             isIncre = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && isIncre == true)
+        if (Input.GetKeyDown(KeyCode.D))
         {
             DrawTriangleLinesTriangulationDelauney();
-        }
-        if (Input.GetKeyDown(KeyCode.D) && isIncre == false)
-        {
-            Debug.LogErrorFormat("Faire la triangulation dabord");
         }
     }
 
     public void DrawTriangleLinesTriangulationDelauney()
     {
         Debug.Log("delau");
-        List<TScript.Triangle> trianglesDelauney = new List<TScript.Triangle>();
-        trianglesDelauney = TriangulationDelauney.TriangulationFlippingEdges(triangles);
+        pointsTriangulationIncre.Sort(SortList);
+        trianglesDelauney = TriangulationDelauney.TriangulationFlippingEdges(TriangulationIncremental(pointsTriangulationIncre));
         DrawLineTriangle(trianglesDelauney);
         
         /*for (int i = 0; i < trianglesDelauney.Count; i++)

@@ -22,7 +22,7 @@ public class Voronoi2D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.V) )
         {
-            delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.triangles);
+            delaunayTriangle = TriangulationDelauney.TriangulationFlippingEdges(dl.trianglesDelauney);
              VoronoiDiagram(delaunayTriangle);
           //  DrawVoronoi(voronoi);
         }

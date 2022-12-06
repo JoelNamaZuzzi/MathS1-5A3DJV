@@ -12,7 +12,7 @@ public class Test : MonoBehaviour
         //GameObject newlndr = Instantiate(lnrdr, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         //EdgesNTris.drawEdge(go[0], go[1], newlndr);
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
-        EdgesNTris.drawTri(go, Meshobj);
+        //EdgesNTris.drawTri(go, Meshobj);
     }
     
 }

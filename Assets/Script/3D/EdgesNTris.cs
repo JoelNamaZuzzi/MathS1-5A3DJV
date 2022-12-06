@@ -21,7 +21,7 @@ public static class EdgesNTris
         lnrdr.SetPosition(1, pts2.transform.position);
     }
 
-    public static void drawTri(List<GameObject> points, GameObject meshObj)
+    public static void drawTri(Triangle triangle, GameObject meshObj)
     {
         meshObj.transform.position = Vec0;
         MeshRenderer meshRenderer = meshObj.GetComponent<MeshRenderer>();
@@ -33,9 +33,9 @@ public static class EdgesNTris
 
         Vector3[] vertices = new Vector3[3]
         {
-            points[0].transform.position,
-            points[1].transform.position,
-            points[2].transform.position
+            triangle.point1.transform.position,
+            triangle.point2.transform.position,
+            triangle.point3.transform.position
         };
         mesh.vertices = vertices;
 

@@ -25,7 +25,7 @@ public static class EdgesNTris
     {
         meshObj.transform.position = Vec0;
         MeshRenderer meshRenderer = meshObj.GetComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+        //meshRenderer.sharedMaterial = new Material(Shader.Find("Opaque"));
 
         MeshFilter meshFilter = meshObj.AddComponent<MeshFilter>();
 

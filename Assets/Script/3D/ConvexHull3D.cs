@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -50,6 +51,8 @@ public class ConvexHull3D : MonoBehaviour
 
     bool IsInsidePolygone(GameObject point)
     {
+        bool isInside = true;
+        float epsilon = Mathf.Epsilon;
         return true;
     }
     

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,7 +27,12 @@ public class ConvexHull3D : MonoBehaviour
         if (listePoints.Count > 3)
         {
             DrawTetrahedre(convexHull);
+            foreach (GameObject pts in listePoints)
+            {
+                Debug.Log(IsInsidePolygone(pts, convexHull));
+            }
         }
+        
         
     }
 
@@ -80,10 +86,26 @@ public class ConvexHull3D : MonoBehaviour
         hull.listPoints.Add(triangle4.point3.transform.position);
     }
 
-    bool IsInsidePolygone(GameObject point)
+    bool IsInsidePolygone(GameObject point, ConvexHull hull)
     {
         bool isInside = true;
         float epsilon = Mathf.Epsilon;
+        foreach (Triangle triangle in hull.listFace)
+        {
+            Vector3 p1 = triangle.point1.transform.position;
+            Vector3 p2 = triangle.point2.transform.position;
+            Vector3 p3 = triangle.point3.transform.position;
+            //creating plane
+            Vector3 planePos = p1; 
+            Vector3 planeNormal = Vector3.Cross(p3-p2, p1-p2);
+            planeNormal = Vector3.Normalize(planeNormal);
+            //getting a signed distance from point to plane
+            float distance = Vector3.Dot(planeNormal, point.transform.position - planePos);
+            if (distance > 0f+epsilon)
+            {
+                return false;
+            }
+        }
         return true;
     }
     

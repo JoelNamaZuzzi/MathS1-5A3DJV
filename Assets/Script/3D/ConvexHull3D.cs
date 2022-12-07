@@ -29,7 +29,7 @@ public class ConvexHull3D : MonoBehaviour
             DrawTetrahedre(convexHull);
             foreach (GameObject pts in listePoints)
             {
-                Debug.Log(IsInsidePolygone(pts, convexHull));
+                Debug.Log(pts.name + IsInsidePolygone(pts, convexHull));
             }
         }
         
@@ -52,7 +52,7 @@ public class ConvexHull3D : MonoBehaviour
         
         GameObject Meshobj4 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle4 = new Triangle(listePoints[1],listePoints[2],listePoints[3]);
-        EdgesNTris.drawTri(triangle4, Meshobj3);
+        EdgesNTris.drawTri(triangle4, Meshobj4);
         
         hull.listFace.Add(triangle1);
         hull.listFace.Add(triangle2);
@@ -98,9 +98,11 @@ public class ConvexHull3D : MonoBehaviour
             //creating plane
             Vector3 planePos = p1; 
             Vector3 planeNormal = Vector3.Cross(p3-p2, p1-p2);
-            planeNormal = Vector3.Normalize(planeNormal);
+            planeNormal = planeNormal.normalized;
+            Debug.Log("Plane normal " + planeNormal);
             //getting a signed distance from point to plane
             float distance = Vector3.Dot(planeNormal, point.transform.position - planePos);
+            //Debug.Log(distance);
             if (distance > 0f+epsilon)
             {
                 return false;

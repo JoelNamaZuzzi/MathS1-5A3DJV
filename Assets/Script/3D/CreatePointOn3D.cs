@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,8 +18,6 @@ public class CreatePointOn3D : MonoBehaviour
     public ConvexHull3D convexhull3DScript;
 
     [SerializeField]  float speed = 20;
-
-
 
     // Update is called once per frame
     void Update()
@@ -49,6 +48,8 @@ public class CreatePointOn3D : MonoBehaviour
 
     void GeneratePoint()
     {
+        Random.InitState((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
+
         for (int i = 0; i < nb_Point; i++)
         {
             Pos.x = Random.Range(-distance,distance);

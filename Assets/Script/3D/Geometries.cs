@@ -55,13 +55,16 @@ public class Edges
 public class ConvexHull
 {
     public List<Vector3> listPoints;
+    public List<Vector3> listPointsNormalized;
     public List<Edges> listEdges;
     public List<Triangle> listFace;
     
     public ConvexHull()
     {
         this.listPoints = new List<Vector3>();
-
+        
+        this.listPointsNormalized = new List<Vector3>();
+        
         this.listEdges = new List<Edges>();
 
         this.listFace = new List<Triangle>();

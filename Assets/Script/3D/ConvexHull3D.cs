@@ -32,8 +32,6 @@ public class ConvexHull3D : MonoBehaviour
                Debug.Log( IsInsidePolygone(pts, convexHull));
             }
         }
-        
-        
     }
 
     void DrawTetrahedre(ConvexHull hull)

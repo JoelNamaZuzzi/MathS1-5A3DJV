@@ -16,7 +16,7 @@ public class CreatePointOn3D : MonoBehaviour
     public List<GameObject> points = new List<GameObject>();
     public ConvexHull3D convexhull3DScript;
 
-    private float speed = 10;
+    [SerializeField]  float speed = 20;
 
 
 
@@ -31,19 +31,19 @@ public class CreatePointOn3D : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            MoveCameraY(speed);
+            MoveCameraY(speed*Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            MoveCameraY(-speed);
+            MoveCameraY(-speed*Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            MoveCameraZ(speed);
+            MoveCameraZ(speed*Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            MoveCameraZ(-speed);
+            MoveCameraZ(-speed*Time.deltaTime);
         }
     }
 

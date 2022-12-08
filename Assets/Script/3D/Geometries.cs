@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Triangle
 {
-    public GameObject point1;
-    public GameObject point2;
-    public GameObject point3;
+    public Vector3 point1;
+    public Vector3 point2;
+    public Vector3 point3;
     public Edges edges1;
     public Edges edges2;
     public Edges edges3;
@@ -15,15 +15,15 @@ public class Triangle
     
     public Triangle()
     {
-        point1 = new GameObject();
-        point2 = new GameObject();
-        point3 = new GameObject();
+        point1 = new Vector3();
+        point2 = new Vector3();
+        point3 = new Vector3();
         edges1 = new Edges();
         edges2 = new Edges();
         edges3 = new Edges();
     }
     
-    public Triangle(GameObject pts1 , GameObject pts2 , GameObject pts3)
+    public Triangle(Vector3 pts1 , Vector3 pts2 , Vector3 pts3)
     {
         point1 = pts1;
         point2 = pts2;
@@ -37,15 +37,15 @@ public class Triangle
 
 public class Edges
 {
-    public GameObject point1;
-    public GameObject point2;
+    public Vector3 point1;
+    public Vector3 point2;
 
     public Edges()
     {
-        point1 = new GameObject();
-        point2 = new GameObject();
+        point1 = new Vector3();
+        point2 = new Vector3();
     }
-    public Edges(GameObject pts1, GameObject pts2)
+    public Edges(Vector3 pts1, Vector3 pts2)
     {
         point1 = pts1;
         point2 = pts2;

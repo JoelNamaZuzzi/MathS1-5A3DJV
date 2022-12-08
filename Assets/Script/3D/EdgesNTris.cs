@@ -33,9 +33,9 @@ public static class EdgesNTris
 
         Vector3[] vertices = new Vector3[3]
         {
-            triangle.point1.transform.position,
-            triangle.point2.transform.position,
-            triangle.point3.transform.position
+            triangle.point1,
+            triangle.point2,
+            triangle.point3
         };
         mesh.vertices = vertices;
 
@@ -63,5 +63,6 @@ public static class EdgesNTris
         mesh.uv = uv;
 
         meshFilter.mesh = mesh;
+        
     }
 }

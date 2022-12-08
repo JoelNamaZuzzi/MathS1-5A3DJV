@@ -58,10 +58,8 @@ public class CreatePointOn3D : MonoBehaviour
             GameObject newPoint = Instantiate(point, Pos, Quaternion.identity);
             newPoint.name = "Point_" + i;
             points.Add(newPoint);
+            convexhull3DScript.listePoints.Add(newPoint.transform.position); ;
         }
-        
-        points.Sort(SortList);
-        convexhull3DScript.listePoints = points;
     }
 
     void ResetPoint()
@@ -124,5 +122,17 @@ public class CreatePointOn3D : MonoBehaviour
 
             return 0;
         }
-    
+
+
+        List<Vector3> NormalizePoint(List<Vector3> list)
+        {
+            List<Vector3> pointNormalized = new List<Vector3>();
+
+            foreach (var point in list)
+            {
+                point.Normalize();
+                pointNormalized.Add(point);
+            }
+            return pointNormalized;
+        }
 }

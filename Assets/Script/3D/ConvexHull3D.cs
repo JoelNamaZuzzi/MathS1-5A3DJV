@@ -106,9 +106,9 @@ public class ConvexHull3D : MonoBehaviour
                                         (perimeter - Length3));
                 //Debug.Log(area);
                 //centre triangle
-                Vector3 center = (pts1 - pts2 - pts3) / 3;
+                Vector3 center = (pts1 + pts2 + pts3) / 3;
+                //Debug.LogWarningFormat(center +" center");
                 float heigth = Vector3.Distance(center, listePoints[i]);
-                //Debug.Log(listePoints[i]);
                 float volume = (1 / 3) * (area) * heigth;
                 //Debug.Log(heigth);
                 Debug.Log(volume+" volume");

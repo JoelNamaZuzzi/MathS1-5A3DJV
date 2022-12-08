@@ -29,7 +29,7 @@ public class ConvexHull3D : MonoBehaviour
             DrawTetrahedre(convexHull);
             foreach (Vector3 pts in listePoints)
             {
-               Debug.Log( IsInsidePolygone(pts, convexHull));
+               Debug.Log( IsInsidePolygone(pts, convexHull)+" IsInside");
             }
         }
     }
@@ -88,26 +88,45 @@ public class ConvexHull3D : MonoBehaviour
     bool IsInsidePolygone(Vector3 point, ConvexHull hull)
     {
         bool isInside = true;
-        float epsilon = Mathf.Epsilon;
-        foreach (Triangle triangle in hull.listFace)
+        List<Triangle> tris = new List<Triangle>();
+        for (int i = 4; i < listePoints.Count; i++)
         {
-            Vector3 p1 = triangle.point1;
-            Vector3 p2 = triangle.point2;
-            Vector3 p3 = triangle.point3;
-            //creating plane
-            Vector3 planePos = p1; 
-            Vector3 planeNormal = Vector3.Cross(p3-p2, p1-p2);
-            planeNormal = planeNormal.normalized;
-            Debug.Log("Plane normal " + planeNormal);
-            //getting a signed distance from point to plane
-            float distance = Vector3.Dot(planeNormal, point - planePos);
-            //Debug.Log(distance);
-            if (distance > 0f+epsilon)
+            foreach (var face in hull.listFace)
             {
-                return false;
+                //on calcule le volume du tétraedre
+                Vector3 pts1 = face.point1;
+                Vector3 pts2 = face.point2;
+                Vector3 pts3 = face.point3;
+                //calcul de l'aire du triangle de base via formule de heron
+                float Length1 = Vector3.Distance(pts1, pts2);
+                float Length2 = Vector3.Distance(pts2, pts3);
+                float Length3 = Vector3.Distance(pts3, pts1);
+                float perimeter = (Length1 + Length2 + Length3) / 2;
+                float area = Mathf.Sqrt(perimeter * (perimeter - Length1) * (perimeter - Length2) *
+                                        (perimeter - Length3));
+                //Debug.Log(area);
+                //centre triangle
+                Vector3 center = (pts1 - pts2 - pts3) / 3;
+                float heigth = Vector3.Distance(center, listePoints[i]);
+                //Debug.Log(listePoints[i]);
+                float volume = (1 / 3) * (area) * heigth;
+                //Debug.Log(heigth);
+                Debug.Log(volume+" volume");
+                Debug.Log(area+" area");
+                Debug.Log(heigth +" heigth");
+                if (volume < 0)
+                {
+                    tris.Add(face);
+                }
             }
         }
-        return true;
+
+        if (tris.Count > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
     
 }

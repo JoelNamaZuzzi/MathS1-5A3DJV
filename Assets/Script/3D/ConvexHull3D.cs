@@ -21,8 +21,9 @@ public class ConvexHull3D : MonoBehaviour
         }
     }
 
-    void DrawConvexHull3D()
+    public void DrawConvexHull3D()
     {
+        // A modif car les ancienne Hull reste lors d'une nouvelle genération
         ConvexHull convexHull = new ConvexHull();
         if (listePoints.Count > 3)
         {

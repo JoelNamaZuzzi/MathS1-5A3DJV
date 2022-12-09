@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEditor;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 
 public class ConvexHull3D : MonoBehaviour
@@ -21,17 +22,31 @@ public class ConvexHull3D : MonoBehaviour
         }
     }
 
-    void DrawConvexHull3D()
+    public void DrawConvexHull3D()
     {
+
         //On créer un objet ConvexHull qui va contenir la liste des triangles(face), des arretes et des sommets
+
+        // A modif car les ancienne Hull reste lors d'une nouvelle genération
+
         ConvexHull convexHull = new ConvexHull();
         if (listePoints.Count > 3)
         {
             DrawTetrahedre(convexHull);
             foreach (Point pts in listePoints)
             {
-               Debug.Log( IsInsidePolygone(pts, convexHull)+" IsInside");
+                bool inside = TestInteriorite(pts, convexHull);
+                if (inside)
+                {
+                    Debug.Log(pts.coordonées+"interieur");
+                }
+                else
+                {
+                    Debug.Log(pts.coordonées+ "exterieur");
+                }
+                //Debug.Log( IsInsidePolygone(pts, convexHull)+" IsInside");
             }
+           
         }
     }
 
@@ -133,11 +148,22 @@ public class ConvexHull3D : MonoBehaviour
 
     bool TestInteriorite(Point p, ConvexHull convexhull)
     {
+        RaycastHit[] hits;
         Vector3 sommetTest = convexhull.listPoints[0].coordonées;
-        RaycastHit hit;
+        Vector3 raycastDir = p.coordonées - sommetTest;
+        Ray ray = new Ray(p.coordonées, raycastDir);
+        hits = Physics.RaycastAll(ray);
         
-        
-        return false;
+        Debug.DrawRay(p.coordonées, raycastDir,Color.cyan,duration:1000000);
+
+        if (hits.Length >1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     
     [ContextMenu("Calcul Normale")]

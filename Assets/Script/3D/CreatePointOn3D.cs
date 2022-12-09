@@ -24,8 +24,7 @@ public class CreatePointOn3D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if(points!= null) ResetPoint();
-            GeneratePoint();
+            InitPoint();
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
@@ -126,6 +125,11 @@ public class CreatePointOn3D : MonoBehaviour
             return 0;
         }
 
+        public void InitPoint()
+        {
+            if(points!= null) ResetPoint();
+            GeneratePoint();
+        }
 
         List<Vector3> NormalizePoint(List<Vector3> list)
         {

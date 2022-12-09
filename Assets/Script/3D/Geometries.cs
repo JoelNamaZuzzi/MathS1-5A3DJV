@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class Triangle
     public Edges edges1;
     public Edges edges2;
     public Edges edges3;
-    public color col = color.blanc;
+    public color couleur = color.blanc;
     
     
     public Triangle()
@@ -47,7 +48,7 @@ public class Edges
 {
     public Point point1;
     public Point point2;
-    public color col = color.blanc;
+    public color couleur = color.blanc;
 
     public Edges()
     {
@@ -61,12 +62,12 @@ public class Edges
     }
 }
 
-
+[Serializable]
 public class Point
 {
     public Vector3 coordonées;
     public Vector3 normal;
-    public color col = color.blanc;
+    public color couleur = color.blanc;
 
     
     public Point()

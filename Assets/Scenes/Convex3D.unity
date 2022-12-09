@@ -381,6 +381,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d490fa81ab8737940889ee48f4a10448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listePoints:
+  - "coordon\xE9es": {x: -6.66, y: 0, z: 0}
+    normal: {x: -1, y: 0, z: 0}
+    couleur: 0
+  - "coordon\xE9es": {x: 5.09, y: 0, z: 0}
+    normal: {x: 1, y: 0, z: 0}
+    couleur: 0
+  - "coordon\xE9es": {x: -0.9099998, y: 6.75, z: 0}
+    normal: {x: -1, y: 0, z: 0}
+    couleur: 0
+  - "coordon\xE9es": {x: -0.9099998, y: 0, z: -8.5}
+    normal: {x: 0, y: 0, z: 0}
+    couleur: 0
+  - "coordon\xE9es": {x: 7.87, y: 1.64, z: -2.39}
+    normal: {x: 0, y: 0, z: 0}
+    couleur: 0
   lnrdr: {fileID: 912655249}
   meshObj: {fileID: 6775432236391102770, guid: ba356e3295c8c3f4c83ac3651af18248, type: 3}
 --- !u!1 &445634380

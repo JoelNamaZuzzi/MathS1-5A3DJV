@@ -23,6 +23,7 @@ public class ConvexHull3D : MonoBehaviour
 
     void DrawConvexHull3D()
     {
+        //On créer un objet ConvexHull qui va contenir la liste des triangles(face), des arretes et des sommets
         ConvexHull convexHull = new ConvexHull();
         if (listePoints.Count > 3)
         {
@@ -52,7 +53,7 @@ public class ConvexHull3D : MonoBehaviour
         Triangle triangle4 = new Triangle(listePoints[1],listePoints[2],listePoints[3]);
         EdgesNTris.drawTri(triangle4, Meshobj4);
         
-        
+        // On stock notre tetrahedre dans notre convex hull
         hull.listFace.Add(triangle1);
         hull.listFace.Add(triangle2);
         hull.listFace.Add(triangle3);
@@ -129,5 +130,24 @@ public class ConvexHull3D : MonoBehaviour
 
         return false;
     }
+
+    bool TestInteriorite(Point p, ConvexHull convexhull)
+    {
+        Vector3 sommetTest = convexhull.listPoints[0].coordonées;
+        RaycastHit hit;
+        
+        
+        return false;
+    }
     
+    [ContextMenu("Calcul Normale")]
+    void CalculateNormale()
+    {
+        foreach (var point in listePoints)
+        {
+            point.normal = Vector3.Normalize(point.coordonées);
+        }
+    }
+
+
 }

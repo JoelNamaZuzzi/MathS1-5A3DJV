@@ -48,7 +48,7 @@ public class CreatePointOn3D : MonoBehaviour
 
     void GeneratePoint()
     {
-        List<Vector3> tmp = new List<Vector3>();
+        
         Random.InitState((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
 
         for (int i = 0; i < nb_Point; i++)
@@ -60,11 +60,9 @@ public class CreatePointOn3D : MonoBehaviour
             GameObject newPoint = Instantiate(point, Pos, Quaternion.identity);
             newPoint.name = "Point_" + i;
             points.Add(newPoint);
-            tmp.Add(newPoint.transform.position);
-
-
+            Point tmp = new Point(newPoint.transform.position);
+            convexhull3DScript.listePoints.Add(tmp);
         }
-        convexhull3DScript.listePoints = NormalizePoint(tmp);
     }
 
     void ResetPoint()

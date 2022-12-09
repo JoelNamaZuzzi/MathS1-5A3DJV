@@ -2,28 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum color
+{
+    blanc,
+    rouge,
+    bleu,
+    violet
+};
 
 public class Triangle
 {
-    public Vector3 point1;
-    public Vector3 point2;
-    public Vector3 point3;
+    public Point point1;
+    public Point point2;
+    public Point point3;
     public Edges edges1;
     public Edges edges2;
     public Edges edges3;
-
+    public color col = color.blanc;
+    
     
     public Triangle()
     {
-        point1 = new Vector3();
-        point2 = new Vector3();
-        point3 = new Vector3();
+        point1 = new Point();
+        point2 = new Point();
+        point3 = new Point();
         edges1 = new Edges();
         edges2 = new Edges();
         edges3 = new Edges();
     }
     
-    public Triangle(Vector3 pts1 , Vector3 pts2 , Vector3 pts3)
+    public Triangle(Point pts1 , Point pts2 , Point pts3)
     {
         point1 = pts1;
         point2 = pts2;
@@ -37,31 +45,53 @@ public class Triangle
 
 public class Edges
 {
-    public Vector3 point1;
-    public Vector3 point2;
+    public Point point1;
+    public Point point2;
+    public color col = color.blanc;
 
     public Edges()
     {
-        point1 = new Vector3();
-        point2 = new Vector3();
+        point1 = new Point();
+        point2 = new Point();
     }
-    public Edges(Vector3 pts1, Vector3 pts2)
+    public Edges(Point pts1, Point pts2)
     {
         point1 = pts1;
         point2 = pts2;
     }
 }
 
+
+public class Point
+{
+    public Vector3 coordonées;
+    public Vector3 normal;
+    public color col = color.blanc;
+
+    
+    public Point()
+    {
+        this.coordonées = new Vector3();
+        this.normal = Vector3.Normalize(coordonées);
+    }
+   public Point(Vector3 coord)
+   {
+       this.coordonées = coord;
+       this.normal = Vector3.Normalize(coordonées);
+   }
+}
+
+
 public class ConvexHull
 {
-    public List<Vector3> listPoints;
+    public List<Point> listPoints;
     public List<Vector3> listPointsNormalized;
     public List<Edges> listEdges;
     public List<Triangle> listFace;
     
     public ConvexHull()
     {
-        this.listPoints = new List<Vector3>();
+        this.listPoints = new List<Point>();
         
         this.listPointsNormalized = new List<Vector3>();
         

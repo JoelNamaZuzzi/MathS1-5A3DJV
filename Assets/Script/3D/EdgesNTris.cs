@@ -33,9 +33,9 @@ public static class EdgesNTris
 
         Vector3[] vertices = new Vector3[3]
         {
-            triangle.point1,
-            triangle.point2,
-            triangle.point3
+            triangle.point1.coordonées,
+            triangle.point2.coordonées,
+            triangle.point3.coordonées
         };
         mesh.vertices = vertices;
 

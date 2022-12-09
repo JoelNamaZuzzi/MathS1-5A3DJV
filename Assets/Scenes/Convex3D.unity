@@ -381,12 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d490fa81ab8737940889ee48f4a10448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listePoints:
-  - {x: -6.66, y: 0, z: 0}
-  - {x: 5.09, y: 0, z: 0}
-  - {x: -0.9099998, y: 6.75, z: 0}
-  - {x: -0.9099998, y: 0, z: -8.5}
-  - {x: -0.9099998, y: 1.64, z: -2.39}
   lnrdr: {fileID: 912655249}
   meshObj: {fileID: 6775432236391102770, guid: ba356e3295c8c3f4c83ac3651af18248, type: 3}
 --- !u!1 &445634380
@@ -873,6 +867,10 @@ PrefabInstance:
     - target: {fileID: 2714783912515518192, guid: a0681a27afe6a194898b73392a35746a, type: 3}
       propertyPath: m_Name
       value: Lnrdr
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714783912515518193, guid: a0681a27afe6a194898b73392a35746a, type: 3}
+      propertyPath: m_Positions.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2714783912515518198, guid: a0681a27afe6a194898b73392a35746a, type: 3}
       propertyPath: m_RootOrder

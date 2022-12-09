@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConvexHull3D : MonoBehaviour
 {
-    public List<Vector3> listePoints = new List<Vector3>();
+    public List<Point> listePoints = new List<Point>();
     
     public GameObject lnrdr;
     public GameObject meshObj;
@@ -27,7 +27,7 @@ public class ConvexHull3D : MonoBehaviour
         if (listePoints.Count > 3)
         {
             DrawTetrahedre(convexHull);
-            foreach (Vector3 pts in listePoints)
+            foreach (Point pts in listePoints)
             {
                Debug.Log( IsInsidePolygone(pts, convexHull)+" IsInside");
             }
@@ -85,7 +85,7 @@ public class ConvexHull3D : MonoBehaviour
         hull.listPoints.Add(triangle4.point3);
     }
 
-    bool IsInsidePolygone(Vector3 point, ConvexHull hull)
+    bool IsInsidePolygone(Point point, ConvexHull hull)
     {
         bool isInside = true;
         List<Triangle> tris = new List<Triangle>();
@@ -94,9 +94,9 @@ public class ConvexHull3D : MonoBehaviour
             foreach (var face in hull.listFace)
             {
                 //on calcule le volume du tétraedre
-                Vector3 pts1 = face.point1;
-                Vector3 pts2 = face.point2;
-                Vector3 pts3 = face.point3;
+                Vector3 pts1 = face.point1.coordonées;
+                Vector3 pts2 = face.point2.coordonées;
+                Vector3 pts3 = face.point3.coordonées;
                 //calcul de l'aire du triangle de base via formule de heron
                 float Length1 = Vector3.Distance(pts1, pts2);
                 float Length2 = Vector3.Distance(pts2, pts3);
@@ -108,7 +108,8 @@ public class ConvexHull3D : MonoBehaviour
                 //centre triangle
                 Vector3 center = (pts1 + pts2 + pts3) / 3;
                 //Debug.LogWarningFormat(center +" center");
-                float heigth = Vector3.Distance(center, listePoints[i]);
+                Point actualPoint = listePoints[i];
+                float heigth = Vector3.Distance(center, actualPoint.coordonées);
                 float volume = (1 / 3) * (area) * heigth;
                 //Debug.Log(heigth);
                 Debug.Log(volume+" volume");

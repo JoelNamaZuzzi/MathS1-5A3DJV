@@ -145,7 +145,7 @@ public class ConvexHull3D : MonoBehaviour
 
         return false;
     }
-
+    //renvoie true si interieur, sinon renvoie false
     bool TestInteriorite(Point p, ConvexHull convexhull)
     {
         RaycastHit[] hits;
@@ -154,15 +154,16 @@ public class ConvexHull3D : MonoBehaviour
         Ray ray = new Ray(p.coordonées, raycastDir);
         hits = Physics.RaycastAll(ray);
         
-        Debug.DrawRay(p.coordonées, raycastDir,Color.cyan,duration:1000000);
-
-        if (hits.Length >1)
+        Debug.DrawRay(p.coordonées, -raycastDir,Color.cyan,duration:1000000);
+        Debug.Log(hits.Length);
+        // si il y a 1 seul hit on est a l'interieur sinon on est a l'exterieur 
+        if (hits.Length == 1)
         {
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
     

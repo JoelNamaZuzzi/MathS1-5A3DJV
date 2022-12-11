@@ -32,7 +32,7 @@ public class ConvexHull3D : MonoBehaviour
         ConvexHull convexHull = new ConvexHull();
         if (listePoints.Count < 3)
         {
-            Debug.Log("Il nous faut 4 ppoint au min");
+            Debug.Log("Il nous faut 4 points au min");
         }
         
         DrawTetrahedre(convexHull);
@@ -42,6 +42,8 @@ public class ConvexHull3D : MonoBehaviour
             if (inside)
             {
                 Debug.Log(pts.coordonées+"interieur");
+                CheckVisibilité();
+
             }
             else
             {
@@ -49,8 +51,13 @@ public class ConvexHull3D : MonoBehaviour
             }
         }
     }
+    //Permet de verifier la visibilité d'un point.
+    private void CheckVisibilité()
+    {
+       
+    }
 
-    
+
     void DrawTetrahedre(ConvexHull hull)
     {
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
@@ -100,6 +107,8 @@ public class ConvexHull3D : MonoBehaviour
         hull.listPoints.Add(triangle4.point1);
         hull.listPoints.Add(triangle4.point2);
         hull.listPoints.Add(triangle4.point3);
+
+        
     }
 
     bool IsInsidePolygone(Point point, ConvexHull hull)

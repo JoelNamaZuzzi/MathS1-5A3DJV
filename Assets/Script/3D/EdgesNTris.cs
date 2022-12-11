@@ -23,7 +23,9 @@ public static class EdgesNTris
 
     public static void drawTri(Triangle triangle, GameObject meshObj)
     {
+        int LayerName = LayerMask.NameToLayer("Face");
         meshObj.transform.position = Vec0;
+        meshObj.layer = LayerName;
         MeshRenderer meshRenderer = meshObj.GetComponent<MeshRenderer>();
         
         //meshRenderer.sharedMaterial = new Material(Shader.Find("Opaque"));
@@ -65,7 +67,7 @@ public static class EdgesNTris
         };
         mesh.uv = uv;
 
-        meshcollider.sharedMesh = mesh;
+        meshcollider.sharedMesh= mesh;
         meshFilter.mesh = mesh;
         
     }

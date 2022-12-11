@@ -30,26 +30,27 @@ public class ConvexHull3D : MonoBehaviour
         // A modif car les ancienne Hull reste lors d'une nouvelle genération
 
         ConvexHull convexHull = new ConvexHull();
-        if (listePoints.Count > 3)
+        if (listePoints.Count < 3)
         {
-            DrawTetrahedre(convexHull);
-            foreach (Point pts in listePoints)
+            Debug.Log("Il nous faut 4 ppoint au min");
+        }
+        
+        DrawTetrahedre(convexHull);
+        foreach (Point pts in listePoints)
+        {
+            bool inside = TestInteriorite(pts, convexHull);
+            if (inside)
             {
-                bool inside = TestInteriorite(pts, convexHull);
-                if (inside)
-                {
-                    Debug.Log(pts.coordonées+"interieur");
-                }
-                else
-                {
-                    Debug.Log(pts.coordonées+ "exterieur");
-                }
-                //Debug.Log( IsInsidePolygone(pts, convexHull)+" IsInside");
+                Debug.Log(pts.coordonées+"interieur");
             }
-           
+            else
+            {
+                Debug.Log(pts.coordonées+ "exterieur");
+            }
         }
     }
 
+    
     void DrawTetrahedre(ConvexHull hull)
     {
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
@@ -145,17 +146,17 @@ public class ConvexHull3D : MonoBehaviour
 
         return false;
     }
+    
+    
     //renvoie true si interieur, sinon renvoie false
     bool TestInteriorite(Point p, ConvexHull convexhull)
     {
+
         RaycastHit[] hits;
-        Vector3 sommetTest = convexhull.listPoints[0].coordonées;
-        Vector3 raycastDir = p.coordonées - sommetTest;
-        Ray ray = new Ray(p.coordonées, raycastDir);
-        hits = Physics.RaycastAll(ray);
+        Ray ray = new Ray(p.coordonées, Vector3.right);
+        hits = Physics.RaycastAll(ray,100);
+        Debug.DrawRay(p.coordonées,Vector3.right*100,Color.red,duration:1000000f);
         
-        Debug.DrawRay(p.coordonées, -raycastDir,Color.cyan,duration:1000000);
-        Debug.Log(hits.Length);
         // si il y a 1 seul hit on est a l'interieur sinon on est a l'exterieur 
         if (hits.Length == 1)
         {

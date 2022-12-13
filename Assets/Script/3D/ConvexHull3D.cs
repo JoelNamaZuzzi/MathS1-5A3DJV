@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 
 
@@ -158,6 +160,85 @@ public class ConvexHull3D : MonoBehaviour
         if (r > 0) return true;
         return false;
     }
-    
+
+    public void UpdateHull(Point pts, ConvexHull hull)
+    {
+        List<Edges> visibleEdges = new List<Edges>();
+        foreach (Triangle face in hull.listFace)
+        {
+            if (face.couleur == color.bleu)
+            {
+                visibleEdges.Add(face.edges1);
+                visibleEdges.Add(face.edges2);
+                visibleEdges.Add(face.edges3);
+            }
+        }
+        foreach (Triangle face in hull.listFace)
+        {
+            if (face.couleur == color.bleu)
+            {
+                int count = visibleEdges.Where(x => x.Equals(face.edges1)).Count();
+                if (count > 1)
+                {
+                    face.edges1 =null;
+                }
+                count = visibleEdges.Where(x => x.Equals(face.edges2)).Count();
+                if (count > 1)
+                {
+                    face.edges2 =null;
+                }
+                count = visibleEdges.Where(x => x.Equals(face.edges3)).Count();
+                if (count > 1)
+                {
+                    face.edges3 =null;
+                }
+            }
+        }
+        foreach (Triangle face in hull.listFace)
+        {
+            if (face.couleur == color.bleu)
+            {
+                hull.listFace.RemoveAt(hull.listFace.IndexOf(face));
+                //we have to test independently each edges
+                if (face.edges1 != null && face.edges1.couleur == color.violet)
+                {
+                    //Create triangle
+                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    Triangle newTriangle = new Triangle(pts,face.edges1.point1,face.edges1.point2);
+                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                }
+                else
+                {
+                    Debug.Log("Edge is Red");
+                }
+                if (face.edges2 != null && face.edges2.couleur == color.violet)
+                {
+                    //Create triangle
+                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    Triangle newTriangle = new Triangle(pts,face.edges2.point1,face.edges2.point2);
+                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                }
+                else
+                {
+                    Debug.Log("Edge is Red");
+                }
+                if (face.edges3 != null && face.edges3.couleur == color.violet)
+                {
+                    //Create triangle
+                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    Triangle newTriangle = new Triangle(pts,face.edges3.point1,face.edges3.point2);
+                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                }
+                else
+                {
+                    Debug.Log("Edge is Red");
+                }
+            }
+            else
+            {
+                Debug.Log("face is red");
+            }
+        }
+    }
     
 }

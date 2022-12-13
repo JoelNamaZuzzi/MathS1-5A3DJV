@@ -126,7 +126,10 @@ public class Triangle
     {
         this.mesh = m;
     }
-    
+    ~Triangle()
+    {
+        GameObject.Destroy(mesh);
+    }
     
 }
 
@@ -187,6 +190,11 @@ public class Point
    public void SetMesh(GameObject m)
    {
        this.mesh = m;
+   }
+
+   ~Point()
+   {
+       GameObject.Destroy(mesh);
    }
 }
 

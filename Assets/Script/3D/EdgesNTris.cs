@@ -75,4 +75,7 @@ public static class EdgesNTris
         meshFilter.mesh = mesh;
         triangle.SetMesh(meshObj);
     }
+
+   
+    
 }

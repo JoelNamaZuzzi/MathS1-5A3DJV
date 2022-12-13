@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +13,8 @@ public class ConvexHull3D : MonoBehaviour
     public GameObject lnrdr;
     public GameObject meshObj;
     public ConvexHull convexHull;
+
+    public List<Material> mats = new List<Material>();
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
@@ -66,19 +67,23 @@ public class ConvexHull3D : MonoBehaviour
     {
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle1 = new Triangle(listePoints[0],listePoints[1],listePoints[2]);
-        EdgesNTris.drawTri(triangle1, Meshobj);
+        Material mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle1, Meshobj, mat);
         
         GameObject Meshobj2 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle2 = new Triangle(listePoints[0],listePoints[3],listePoints[1]);
-        EdgesNTris.drawTri(triangle2, Meshobj2);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle2, Meshobj2, mat);
         
         GameObject Meshobj3 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle3 = new Triangle(listePoints[0],listePoints[2],listePoints[3]);
-        EdgesNTris.drawTri(triangle3, Meshobj3);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle3, Meshobj3, mat);
         
         GameObject Meshobj4 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle4 = new Triangle(listePoints[1],listePoints[2],listePoints[3]);
-        EdgesNTris.drawTri(triangle4, Meshobj4);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle4, Meshobj4, mat);
         
         // On stock notre tetrahedre dans notre convex hull
         hull.listFace.Add(triangle1);

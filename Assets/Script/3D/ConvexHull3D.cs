@@ -280,7 +280,6 @@ public class ConvexHull3D : MonoBehaviour
         }
         foreach (Triangle face in hull.listFace)
         {
-            hull.listPoints
             if (face.couleur == color.bleu)
             {
                 hull.listFace.RemoveAt(hull.listFace.IndexOf(face));
@@ -353,6 +352,7 @@ public class ConvexHull3D : MonoBehaviour
             {
                 Debug.Log("face is red");
             }
+            ResetColor();
         }
     }
     

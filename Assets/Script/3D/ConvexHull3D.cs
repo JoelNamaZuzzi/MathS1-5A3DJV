@@ -361,6 +361,8 @@ public class ConvexHull3D : MonoBehaviour
             if (curFace.couleur == color.bleu)
             {
                 //Delete Face
+                EndFace(curFace);
+                i -= 1;
             }
         }
         for (int i = 0; i < hull.listPoints.Count(); i++)
@@ -370,6 +372,8 @@ public class ConvexHull3D : MonoBehaviour
             if (curPts.couleur == color.bleu)
             {
                 //Delete Pts
+                EndPoint(curPts);
+                i -= 1;
             }
         }
         for (int i = 0; i<hull.listEdges.Count(); i++)
@@ -379,7 +383,10 @@ public class ConvexHull3D : MonoBehaviour
             if (curEdge.couleur == color.bleu)
             {
                 //Delete Edge
-            }else if (curEdge.couleur == color.violet)
+                EndEdge(curEdge);
+                i -= 1;
+            }
+            else if (curEdge.couleur == color.violet)
             {
                 //We draw a new triangle
                 GameObject mesh = Instantiate(meshObj, new Vector3(0f, 0f, 0f),Quaternion.Euler(0f,0f,0f));
@@ -397,6 +404,48 @@ public class ConvexHull3D : MonoBehaviour
                 hull.listPoints.Add(triangle.point3);
             }
         }
+        ResetColor();
     }
-    
+
+    void EndFace(Triangle t)
+    {
+        int index = t.edges1.triangleProprio.IndexOf(t);
+        if (index != -1)
+        {
+            t.edges1.triangleProprio.RemoveAt(index);
+        }
+
+        index = t.edges2.triangleProprio.IndexOf(t);
+        if (index != -1)
+        {
+            t.edges2.triangleProprio.RemoveAt(index);
+        }
+
+        index = t.edges3.triangleProprio.IndexOf(t);
+        if (index != -1)
+        {
+            t.edges3.triangleProprio.RemoveAt(index);
+        }
+    }
+
+    void EndPoint(Point p)
+    {
+        int index = convexHull.listPoints.IndexOf(p);
+        listePoints.RemoveAt(index);
+        
+    }
+
+    void EndEdge(Edges e)
+    {
+        int index = e.point1.edgeProprio.IndexOf(e);
+        if (index != -1)
+        {
+            e.point1.edgeProprio.RemoveAt(index);
+        }
+        index = e.point2.edgeProprio.IndexOf(e);
+        if (index != -1)
+        {
+            e.point2.edgeProprio.RemoveAt(index);
+        }
+    }
 }

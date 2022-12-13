@@ -34,10 +34,7 @@ public class ConvexHull3D : MonoBehaviour
 
     public void DrawConvexHull3D()
     {
-
-        //On créer un objet ConvexHull qui va contenir la liste des triangles(face), des arretes et des sommets
-
-        // A modif car les ancienne Hull reste lors d'une nouvelle genération
+        if(convexHull!=null) EraseFace();
 
         convexHull = new ConvexHull();
         if (listePoints.Count < 3)
@@ -243,5 +240,15 @@ public class ConvexHull3D : MonoBehaviour
         return false;
     }
     
-    
+    public void EraseFace()
+    {
+        for (int i = 0; i < convexHull.listFace.Count; i++)
+        {
+            Destroy(convexHull.listFace[i].mesh);
+        }
+        
+        convexHull.listEdges.Clear();
+        convexHull.listFace.Clear();
+        convexHull.listPoints.Clear();
+    }
 }

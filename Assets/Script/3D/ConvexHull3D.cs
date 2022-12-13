@@ -196,6 +196,7 @@ public class ConvexHull3D : MonoBehaviour
         }
         foreach (Triangle face in hull.listFace)
         {
+            hull.listPoints
             if (face.couleur == color.bleu)
             {
                 hull.listFace.RemoveAt(hull.listFace.IndexOf(face));
@@ -205,7 +206,17 @@ public class ConvexHull3D : MonoBehaviour
                     //Create triangle
                     GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
                     Triangle newTriangle = new Triangle(pts,face.edges1.point1,face.edges1.point2);
-                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                    Material mat = mats[Random.Range(0,mats.Count)];
+                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
+                    
+                    hull.listFace.Add(newTriangle);
+                    hull.listEdges.Add(newTriangle.edges1);
+                    hull.listEdges.Add(newTriangle.edges2);
+                    hull.listEdges.Add(newTriangle.edges3);
+
+                    hull.listPoints.Add(newTriangle.point1);
+                    hull.listPoints.Add(newTriangle.point2);
+                    hull.listPoints.Add(newTriangle.point3);
                 }
                 else
                 {
@@ -216,7 +227,17 @@ public class ConvexHull3D : MonoBehaviour
                     //Create triangle
                     GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
                     Triangle newTriangle = new Triangle(pts,face.edges2.point1,face.edges2.point2);
-                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                    Material mat = mats[Random.Range(0,mats.Count)];
+                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
+                    
+                    hull.listFace.Add(newTriangle);
+                    hull.listEdges.Add(newTriangle.edges1);
+                    hull.listEdges.Add(newTriangle.edges2);
+                    hull.listEdges.Add(newTriangle.edges3);
+
+                    hull.listPoints.Add(newTriangle.point1);
+                    hull.listPoints.Add(newTriangle.point2);
+                    hull.listPoints.Add(newTriangle.point3);
                 }
                 else
                 {
@@ -227,7 +248,17 @@ public class ConvexHull3D : MonoBehaviour
                     //Create triangle
                     GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
                     Triangle newTriangle = new Triangle(pts,face.edges3.point1,face.edges3.point2);
-                    EdgesNTris.drawTri(newTriangle, Meshobj);
+                    Material mat = mats[Random.Range(0,mats.Count)];
+                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
+                    
+                    hull.listFace.Add(newTriangle);
+                    hull.listEdges.Add(newTriangle.edges1);
+                    hull.listEdges.Add(newTriangle.edges2);
+                    hull.listEdges.Add(newTriangle.edges3);
+
+                    hull.listPoints.Add(newTriangle.point1);
+                    hull.listPoints.Add(newTriangle.point2);
+                    hull.listPoints.Add(newTriangle.point3);
                 }
                 else
                 {

@@ -60,6 +60,7 @@ public class Triangle
 
 public class Edges
 {
+    public List<Triangle> triangleProprio;
     public Point point1;
     public Point point2;
     public color couleur = color.blanc;
@@ -67,18 +68,24 @@ public class Edges
     public Edges()
     {
         point1 = new Point();
+        point1.edgeProprio.Add(this);
         point2 = new Point();
+        point2.edgeProprio.Add(this);
+        triangleProprio = new List<Triangle>();
     }
     public Edges(Point pts1, Point pts2)
     {
         point1 = pts1;
+        point1.edgeProprio.Add(this);
         point2 = pts2;
+        point2.edgeProprio.Add(this);
     }
 }
 
 [Serializable]
 public class Point
 {
+    public List<Edges> edgeProprio;
     public Vector3 coordonées;
     public Vector3 normal;
     public color couleur = color.blanc;
@@ -88,11 +95,13 @@ public class Point
     {
         this.coordonées = new Vector3();
         this.normal = Vector3.Normalize(coordonées);
+        this.edgeProprio = new List<Edges>();
     }
    public Point(Vector3 coord)
    {
        this.coordonées = coord;
        this.normal = Vector3.Normalize(coordonées);
+       this.edgeProprio = new List<Edges>();
    }
    
    public static Vector3 operator -(Point a, Point b)
@@ -119,4 +128,6 @@ public class ConvexHull
 
         this.listFace = new List<Triangle>();
     }
+    
+    
 }

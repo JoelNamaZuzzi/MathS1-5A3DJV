@@ -13,7 +13,7 @@ public class ConvexHull3D : MonoBehaviour
     
     public GameObject lnrdr;
     public GameObject meshObj;
-
+    public ConvexHull convexHull;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
@@ -29,7 +29,7 @@ public class ConvexHull3D : MonoBehaviour
 
         // A modif car les ancienne Hull reste lors d'une nouvelle genération
 
-        ConvexHull convexHull = new ConvexHull();
+        convexHull = new ConvexHull();
         if (listePoints.Count < 3)
         {
             Debug.Log("Il nous faut 4 points au min");
@@ -42,11 +42,10 @@ public class ConvexHull3D : MonoBehaviour
             if (inside)
             {
                 Debug.Log(pts.coordonées+"interieur");
-                CheckVisibilité(pts,convexHull);
-
             }
             else
             {
+                CheckVisibilité(pts,convexHull);
                 Debug.Log(pts.coordonées+ "exterieur");
             }
         }
@@ -129,11 +128,15 @@ public class ConvexHull3D : MonoBehaviour
     //Permet de verifier la visibilité d'un point.
     private void CheckVisibilité(Point pts , ConvexHull hull)
     {
-        List<Triangle> triangleVisibles = new List<Triangle>();
+        
 
         foreach (var triangle in hull.listFace)
         {
-           
+            if (isVisible(triangle, pts))
+            {
+                triangle.couleur = color.bleu;
+            }
+            
         }
         
     }

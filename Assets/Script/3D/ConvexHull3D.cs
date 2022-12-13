@@ -247,8 +247,8 @@ public class ConvexHull3D : MonoBehaviour
 
     public void UpdateHull(Point pts, ConvexHull hull)
     {
-        List<Edges> visibleEdges = new List<Edges>();
-        foreach (Triangle face in hull.listFace)
+        //List<Edges> visibleEdges = new List<Edges>();
+        /*foreach (Triangle face in hull.listFace)
         {
             if (face.couleur == color.bleu)
             {
@@ -353,6 +353,33 @@ public class ConvexHull3D : MonoBehaviour
                 Debug.Log("face is red");
             }
             ResetColor();
+        }*/
+        for (int i = 0; i < hull.listFace.Count(); i++)
+        {
+            Triangle curFace = hull.listFace[i];
+            //We only interact with blue ones
+            if (curFace.couleur == color.bleu)
+            {
+                //Delete Face
+            }
+        }
+        for (int i = 0; i < hull.listPoints.Count(); i++)
+        {
+            Point curPts = hull.listPoints[i];
+            //We only look at blue pts, red & purple one aren't useful here
+            if (curPts.couleur == color.bleu)
+            {
+                //Delete Pts
+            }
+        }
+        for (int i = 0; i<hull.listEdges.Count(); i++)
+        {
+            Edges curEdge = hull.listEdges[i];
+            //We don't look at red ones here
+            if (curEdge.couleur == color.bleu)
+            {
+                //Delete Edge
+            }
         }
     }
     

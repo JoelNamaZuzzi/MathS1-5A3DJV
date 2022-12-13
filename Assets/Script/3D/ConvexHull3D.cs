@@ -60,7 +60,7 @@ public class ConvexHull3D : MonoBehaviour
                 
                 Debug.Log(pts.coordonées+ "exterieur");
                 CheckVisibilité(pts);
-               // UpdateHull(pts,convexHull);
+               UpdateHull(pts,convexHull);
             }
         }
     }
@@ -333,6 +333,7 @@ public class ConvexHull3D : MonoBehaviour
             {
                 //Delete Face
                 EndFace(curFace);
+                hull.listFace.RemoveAt(i);
                 i -= 1;
             }
         }
@@ -344,6 +345,7 @@ public class ConvexHull3D : MonoBehaviour
             {
                 //Delete Pts
                 EndPoint(curPts);
+                hull.listPoints.RemoveAt(i);
                 i -= 1;
             }
         }
@@ -355,6 +357,7 @@ public class ConvexHull3D : MonoBehaviour
             {
                 //Delete Edge
                 EndEdge(curEdge);
+                hull.listEdges.RemoveAt(i);
                 i -= 1;
             }
             else if (curEdge.couleur == color.violet)
@@ -362,10 +365,14 @@ public class ConvexHull3D : MonoBehaviour
                 //We draw a new triangle
                 AddTriangle(curEdge.point1, curEdge.point2, pts);
             }
+            else
+            {
+                Debug.Log("Ma bite");
+            }
         }
-        ResetColor();
+        
     }
-
+    
     void EndFace(Triangle t)
     {
         int index = t.edges1.triangleProprio.IndexOf(t);
@@ -385,6 +392,7 @@ public class ConvexHull3D : MonoBehaviour
         {
             t.edges3.triangleProprio.RemoveAt(index);
         }
+        GameObject.Destroy(t.mesh);
     }
 
     void EndPoint(Point p)

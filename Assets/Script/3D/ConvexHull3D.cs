@@ -20,6 +20,15 @@ public class ConvexHull3D : MonoBehaviour
         {
             DrawConvexHull3D();
         }
+
+        foreach (Point point in listePoints)
+        {
+            if (point.IsMovable)
+            {
+                point.coordonées = point.mesh.transform.position;
+            }
+        }
+        
     }
 
     public void DrawConvexHull3D()
@@ -38,14 +47,14 @@ public class ConvexHull3D : MonoBehaviour
         DrawTetrahedre(convexHull);
         foreach (Point pts in listePoints)
         {
-            bool inside = TestInteriorite(pts, convexHull);
+            bool inside = TestInteriorite(pts);
             if (inside)
             {
                 Debug.Log(pts.coordonées+"interieur");
             }
             else
             {
-                CheckVisibilité(pts,convexHull);
+                CheckVisibilité(pts);
                 Debug.Log(pts.coordonées+ "exterieur");
             }
         }
@@ -104,7 +113,7 @@ public class ConvexHull3D : MonoBehaviour
     }
     
     //renvoie true si interieur, sinon renvoie false
-    bool TestInteriorite(Point p, ConvexHull convexhull)
+    bool TestInteriorite(Point p)
     {
 
         RaycastHit[] hits;
@@ -122,25 +131,94 @@ public class ConvexHull3D : MonoBehaviour
             return false;
         }
     }
-    
-    
-    
-    //Permet de verifier la visibilité d'un point.
-    private void CheckVisibilité(Point pts , ConvexHull hull)
-    {
-        
 
-        foreach (var triangle in hull.listFace)
+    //Permet de verifier la visibilité d'un point.
+    private void CheckVisibilité(Point pts)
+    {
+        foreach (var triangle in convexHull.listFace)
         {
             if (isVisible(triangle, pts))
             {
                 triangle.couleur = color.bleu;
             }
-            
+            else
+            {
+                triangle.couleur = color.rouge;
+            }
         }
-        
+        // Change la couleur des edges et points
+        SetEdgeColor();
+        SetPointColor();
+
+    }
+
+    private void SetEdgeColor()
+    {
+        foreach (var edges in convexHull.listEdges)
+        {
+            bool onlyRed = true;
+            bool onlyBlue = true;
+            foreach (var triangle in edges.triangleProprio)
+            {
+                if (triangle.couleur == color.rouge)
+                {
+                    onlyBlue = false;
+                }
+
+                if (triangle.couleur == color.bleu)
+                {
+                    onlyRed = false;
+                }
+            }
+
+            if (onlyRed) edges.couleur = color.rouge;
+            else if (onlyBlue) edges.couleur = color.bleu;
+            else edges.couleur = color.violet;
+        }
     }
     
+    private void SetPointColor()
+    {
+        foreach (var point in convexHull.listPoints)
+        {
+            bool onlyRed = true;
+            bool onlyBlue = true;
+            foreach (var edge in point.edgeProprio)
+            {
+                if (edge.couleur == color.rouge)
+                {
+                    onlyBlue = false;
+                }
+
+                if (edge.couleur == color.bleu)
+                {
+                    onlyRed = false;
+                }
+            }
+
+            if (onlyRed) point.couleur = color.rouge;
+            else if (onlyBlue) point.couleur = color.bleu;
+            else point.couleur = color.violet;
+        }
+    }
+
+    public void ResetColor()
+    {
+        foreach (var t in convexHull.listFace)
+        {
+            t.couleur = color.blanc;
+        }
+        foreach (var e in convexHull.listEdges)
+        {
+            e.couleur = color.blanc;
+        }
+        foreach (var p in convexHull.listPoints)
+        {
+            p.couleur = color.blanc;
+        }
+    }
+    
+
     [ContextMenu("Calcul Normale")]
     void CalculateNormale()
     {

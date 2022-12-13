@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public static class EdgesNTris
 {
@@ -21,13 +23,15 @@ public static class EdgesNTris
         lnrdr.SetPosition(1, pts2.transform.position);
     }
 
-    public static void drawTri(Triangle triangle, GameObject meshObj)
+    public static void drawTri(Triangle triangle, GameObject meshObj, Material mat)
     {
         int LayerName = LayerMask.NameToLayer("Face");
         meshObj.transform.position = Vec0;
         meshObj.layer = LayerName;
+        meshObj.tag = "Face";
         MeshRenderer meshRenderer = meshObj.GetComponent<MeshRenderer>();
-        
+        meshObj.GetComponent<MeshRenderer>().material = mat;
+
         //meshRenderer.sharedMaterial = new Material(Shader.Find("Opaque"));
 
         MeshFilter meshFilter = meshObj.AddComponent<MeshFilter>();

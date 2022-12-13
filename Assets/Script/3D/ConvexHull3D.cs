@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,12 +15,23 @@ public class ConvexHull3D : MonoBehaviour
     public GameObject lnrdr;
     public GameObject meshObj;
     public ConvexHull convexHull;
+
+    public List<Material> mats = new List<Material>();
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
             DrawConvexHull3D();
         }
+
+        foreach (Point point in listePoints)
+        {
+            if (point.IsMovable)
+            {
+                point.coordonées = point.mesh.transform.position;
+            }
+        }
+        
     }
 
     public void DrawConvexHull3D()
@@ -40,14 +50,15 @@ public class ConvexHull3D : MonoBehaviour
         DrawTetrahedre(convexHull);
         foreach (Point pts in listePoints)
         {
-            bool inside = TestInteriorite(pts, convexHull);
+            
+            bool inside = TestInteriorite(pts);
             if (inside)
             {
                 Debug.Log(pts.coordonées+"interieur");
             }
             else
             {
-                CheckVisibilité(pts,convexHull);
+                CheckVisibilité(pts);
                 Debug.Log(pts.coordonées+ "exterieur");
             }
         }
@@ -58,19 +69,23 @@ public class ConvexHull3D : MonoBehaviour
     {
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle1 = new Triangle(listePoints[0],listePoints[1],listePoints[2]);
-        EdgesNTris.drawTri(triangle1, Meshobj);
+        Material mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle1, Meshobj, mat);
         
         GameObject Meshobj2 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle2 = new Triangle(listePoints[0],listePoints[3],listePoints[1]);
-        EdgesNTris.drawTri(triangle2, Meshobj2);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle2, Meshobj2, mat);
         
         GameObject Meshobj3 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle3 = new Triangle(listePoints[0],listePoints[2],listePoints[3]);
-        EdgesNTris.drawTri(triangle3, Meshobj3);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle3, Meshobj3, mat);
         
         GameObject Meshobj4 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle4 = new Triangle(listePoints[1],listePoints[2],listePoints[3]);
-        EdgesNTris.drawTri(triangle4, Meshobj4);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle4, Meshobj4, mat);
         
         // On stock notre tetrahedre dans notre convex hull
         hull.listFace.Add(triangle1);
@@ -106,7 +121,7 @@ public class ConvexHull3D : MonoBehaviour
     }
     
     //renvoie true si interieur, sinon renvoie false
-    bool TestInteriorite(Point p, ConvexHull convexhull)
+    bool TestInteriorite(Point p)
     {
 
         RaycastHit[] hits;
@@ -124,25 +139,94 @@ public class ConvexHull3D : MonoBehaviour
             return false;
         }
     }
-    
-    
-    
-    //Permet de verifier la visibilité d'un point.
-    private void CheckVisibilité(Point pts , ConvexHull hull)
-    {
-        
 
-        foreach (var triangle in hull.listFace)
+    //Permet de verifier la visibilité d'un point.
+    private void CheckVisibilité(Point pts)
+    {
+        foreach (var triangle in convexHull.listFace)
         {
             if (isVisible(triangle, pts))
             {
                 triangle.couleur = color.bleu;
             }
-            
+            else
+            {
+                triangle.couleur = color.rouge;
+            }
         }
-        
+        // Change la couleur des edges et points
+        SetEdgeColor();
+        SetPointColor();
+
+    }
+
+    private void SetEdgeColor()
+    {
+        foreach (var edges in convexHull.listEdges)
+        {
+            bool onlyRed = true;
+            bool onlyBlue = true;
+            foreach (var triangle in edges.triangleProprio)
+            {
+                if (triangle.couleur == color.rouge)
+                {
+                    onlyBlue = false;
+                }
+
+                if (triangle.couleur == color.bleu)
+                {
+                    onlyRed = false;
+                }
+            }
+
+            if (onlyRed) edges.couleur = color.rouge;
+            else if (onlyBlue) edges.couleur = color.bleu;
+            else edges.couleur = color.violet;
+        }
     }
     
+    private void SetPointColor()
+    {
+        foreach (var point in convexHull.listPoints)
+        {
+            bool onlyRed = true;
+            bool onlyBlue = true;
+            foreach (var edge in point.edgeProprio)
+            {
+                if (edge.couleur == color.rouge)
+                {
+                    onlyBlue = false;
+                }
+
+                if (edge.couleur == color.bleu)
+                {
+                    onlyRed = false;
+                }
+            }
+
+            if (onlyRed) point.couleur = color.rouge;
+            else if (onlyBlue) point.couleur = color.bleu;
+            else point.couleur = color.violet;
+        }
+    }
+
+    public void ResetColor()
+    {
+        foreach (var t in convexHull.listFace)
+        {
+            t.couleur = color.blanc;
+        }
+        foreach (var e in convexHull.listEdges)
+        {
+            e.couleur = color.blanc;
+        }
+        foreach (var p in convexHull.listPoints)
+        {
+            p.couleur = color.blanc;
+        }
+    }
+    
+
     [ContextMenu("Calcul Normale")]
     void CalculateNormale()
     {
@@ -155,7 +239,7 @@ public class ConvexHull3D : MonoBehaviour
     bool isVisible(Triangle t, Point p)
     {
 
-        float r = Vector3.Dot(t.point1 - p, t.normal);
+        float r = Vector3.Dot(t.point1 - p, t.getNormale());
 
         if (r > 0) return true;
         return false;

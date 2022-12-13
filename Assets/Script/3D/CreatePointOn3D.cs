@@ -60,6 +60,7 @@ public class CreatePointOn3D : MonoBehaviour
             newPoint.name = "Point_" + i;
             points.Add(newPoint);
             Point tmp = new Point(newPoint.transform.position);
+            tmp.SetMesh(newPoint);
             convexhull3DScript.listePoints.Add(tmp);
         }
     }

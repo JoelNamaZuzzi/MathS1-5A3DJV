@@ -60,7 +60,7 @@ public class ConvexHull3D : MonoBehaviour
                 
                 Debug.Log(pts.coordonées+ "exterieur");
                 CheckVisibilité(pts);
-                UpdateHull(pts,convexHull);
+               // UpdateHull(pts,convexHull);
             }
         }
     }
@@ -343,15 +343,22 @@ public class ConvexHull3D : MonoBehaviour
 
     bool AlreadyInEdges(Edges e)
     {
-        if (convexHull.listEdges.Contains(e))
+        
+        for (int i = 0; i < convexHull.listEdges.Count; i++)
         {
-            return true;
+            if ((e.point1 == convexHull.listEdges[i].point1 ||
+              e.point1 == convexHull.listEdges[i].point2 )&&(e.point2 == convexHull.listEdges[i].point1 || e.point2 ==
+                convexHull.listEdges[i].point2))
+            {
+                return true;
+            }
         }
         return false;
     }
     
     bool AlreadyInPoint(Point e)
     {
+        
         if (convexHull.listPoints.Contains(e))
         {
             return true;

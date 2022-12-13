@@ -42,7 +42,7 @@ public class ConvexHull3D : MonoBehaviour
             if (inside)
             {
                 Debug.Log(pts.coordonées+"interieur");
-                CheckVisibilité();
+                CheckVisibilité(pts,convexHull);
 
             }
             else
@@ -51,12 +51,7 @@ public class ConvexHull3D : MonoBehaviour
             }
         }
     }
-    //Permet de verifier la visibilité d'un point.
-    private void CheckVisibilité()
-    {
-       
-    }
-
+ 
 
     void DrawTetrahedre(ConvexHull hull)
     {
@@ -107,55 +102,7 @@ public class ConvexHull3D : MonoBehaviour
         hull.listPoints.Add(triangle4.point1);
         hull.listPoints.Add(triangle4.point2);
         hull.listPoints.Add(triangle4.point3);
-
-        
     }
-
-    bool IsInsidePolygone(Point point, ConvexHull hull)
-    {
-        bool isInside = true;
-        List<Triangle> tris = new List<Triangle>();
-        for (int i = 4; i < listePoints.Count; i++)
-        {
-            foreach (var face in hull.listFace)
-            {
-                //on calcule le volume du tétraedre
-                Vector3 pts1 = face.point1.coordonées;
-                Vector3 pts2 = face.point2.coordonées;
-                Vector3 pts3 = face.point3.coordonées;
-                //calcul de l'aire du triangle de base via formule de heron
-                float Length1 = Vector3.Distance(pts1, pts2);
-                float Length2 = Vector3.Distance(pts2, pts3);
-                float Length3 = Vector3.Distance(pts3, pts1);
-                float perimeter = (Length1 + Length2 + Length3) / 2;
-                float area = Mathf.Sqrt(perimeter * (perimeter - Length1) * (perimeter - Length2) *
-                                        (perimeter - Length3));
-                //Debug.Log(area);
-                //centre triangle
-                Vector3 center = (pts1 + pts2 + pts3) / 3;
-                //Debug.LogWarningFormat(center +" center");
-                Point actualPoint = listePoints[i];
-                float heigth = Vector3.Distance(center, actualPoint.coordonées);
-                float volume = (1 / 3) * (area) * heigth;
-                //Debug.Log(heigth);
-                Debug.Log(volume+" volume");
-                Debug.Log(area+" area");
-                Debug.Log(heigth +" heigth");
-                if (volume < 0)
-                {
-                    tris.Add(face);
-                }
-            }
-        }
-
-        if (tris.Count > 0)
-        {
-            return true;
-        }
-
-        return false;
-    }
-    
     
     //renvoie true si interieur, sinon renvoie false
     bool TestInteriorite(Point p, ConvexHull convexhull)
@@ -177,6 +124,20 @@ public class ConvexHull3D : MonoBehaviour
         }
     }
     
+    
+    
+    //Permet de verifier la visibilité d'un point.
+    private void CheckVisibilité(Point pts , ConvexHull hull)
+    {
+        List<Triangle> triangleVisibles = new List<Triangle>();
+
+        foreach (var triangle in hull.listFace)
+        {
+           
+        }
+        
+    }
+    
     [ContextMenu("Calcul Normale")]
     void CalculateNormale()
     {
@@ -186,5 +147,14 @@ public class ConvexHull3D : MonoBehaviour
         }
     }
 
+    bool isVisible(Triangle t, Point p)
+    {
 
+        float r = Vector3.Dot(t.point1 - p, t.normal);
+
+        if (r > 0) return true;
+        return false;
+    }
+    
+    
 }

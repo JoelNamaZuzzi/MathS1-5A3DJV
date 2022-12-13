@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public enum color
@@ -19,6 +20,7 @@ public class Triangle
     public Edges edges1;
     public Edges edges2;
     public Edges edges3;
+    public Vector3 normal;
     public color couleur = color.blanc;
     
     
@@ -30,6 +32,9 @@ public class Triangle
         edges1 = new Edges();
         edges2 = new Edges();
         edges3 = new Edges();
+        normal = new Vector3();
+
+
     }
     
     public Triangle(Point pts1 , Point pts2 , Point pts3)
@@ -40,8 +45,17 @@ public class Triangle
         edges1 = new Edges(point1, point2);
         edges2 = new Edges(point2, point3);
         edges3 = new Edges(point3, point1);
+        normal = Vector3.zero;
+
     }
-    
+
+    Vector3 getNormale(Point externe)
+    {
+        Vector3 n=Vector3.Cross(point1 - point2, point1- point3);
+
+        if (Vector3.Dot(n, point1 - externe) > 0) return -n;
+        return n;
+    }
 }
 
 public class Edges
@@ -79,6 +93,11 @@ public class Point
    {
        this.coordonées = coord;
        this.normal = Vector3.Normalize(coordonées);
+   }
+   
+   public static Vector3 operator -(Point a, Point b)
+   {
+       return a.coordonées - b.coordonées;
    }
 }
 

@@ -23,7 +23,7 @@ public class Triangle
     public Edges edges3;
     public Vector3 normal;
     public color couleur = color.blanc;
-    public GameObject mesh;
+    [NonSerialized]public GameObject mesh;
     
     
     
@@ -74,7 +74,7 @@ public class Triangle
 [Serializable]
 public class Edges
 {
-    public List<Triangle> triangleProprio;
+    [NonSerialized]public List<Triangle> triangleProprio;
     public Point point1;
     public Point point2;
     public color couleur = color.blanc;
@@ -100,7 +100,7 @@ public class Edges
 [Serializable]
 public class Point
 {
-    public List<Edges> edgeProprio;
+    [NonSerialized]public List<Edges> edgeProprio;
     public Vector3 coordonées;
     public Vector3 normal;
     public color couleur = color.blanc;
@@ -135,16 +135,13 @@ public class Point
 public class ConvexHull
 {
     public List<Point> listPoints;
-    public List<Vector3> listPointsNormalized;
     public List<Edges> listEdges;
     public List<Triangle> listFace;
     
     public ConvexHull()
     {
         this.listPoints = new List<Point>();
-        
-        this.listPointsNormalized = new List<Vector3>();
-        
+
         this.listEdges = new List<Edges>();
 
         this.listFace = new List<Triangle>();

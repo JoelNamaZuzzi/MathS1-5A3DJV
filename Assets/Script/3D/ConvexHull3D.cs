@@ -379,6 +379,22 @@ public class ConvexHull3D : MonoBehaviour
             if (curEdge.couleur == color.bleu)
             {
                 //Delete Edge
+            }else if (curEdge.couleur == color.violet)
+            {
+                //We draw a new triangle
+                GameObject mesh = Instantiate(meshObj, new Vector3(0f, 0f, 0f),Quaternion.Euler(0f,0f,0f));
+                Triangle triangle = new Triangle(curEdge.point1, curEdge.point2, pts);
+                Material mat = mats[Random.Range(0,mats.Count)];
+                EdgesNTris.drawTri(triangle, meshObj, mat);
+
+                hull.listFace.Add(triangle);
+                hull.listEdges.Add(triangle.edges1);
+                hull.listEdges.Add(triangle.edges2);
+                hull.listEdges.Add(triangle.edges3);
+
+                hull.listPoints.Add(triangle.point1);
+                hull.listPoints.Add(triangle.point2);
+                hull.listPoints.Add(triangle.point3);
             }
         }
     }

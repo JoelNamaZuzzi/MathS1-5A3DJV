@@ -47,6 +47,7 @@ public class ConvexHull3D : MonoBehaviour
         DrawTetrahedre(convexHull);
         foreach (Point pts in listePoints)
         {
+            
             bool inside = TestInteriorite(pts);
             if (inside)
             {
@@ -231,7 +232,7 @@ public class ConvexHull3D : MonoBehaviour
     bool isVisible(Triangle t, Point p)
     {
 
-        float r = Vector3.Dot(t.point1 - p, t.normal);
+        float r = Vector3.Dot(t.point1 - p, t.getNormale());
 
         if (r > 0) return true;
         return false;

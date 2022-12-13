@@ -73,6 +73,6 @@ public static class EdgesNTris
 
         meshcollider.sharedMesh= mesh;
         meshFilter.mesh = mesh;
-        
+        triangle.SetMesh(meshObj);
     }
 }

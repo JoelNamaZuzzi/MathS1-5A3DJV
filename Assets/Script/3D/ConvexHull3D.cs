@@ -341,29 +341,35 @@ public class ConvexHull3D : MonoBehaviour
         Destroy(t.mesh);
     }
 
-    bool AlreadyInEdges(Edges e)
+    int AlreadyInEdges(Edges e)
     {
-        
+        int index = -1;
         for (int i = 0; i < convexHull.listEdges.Count; i++)
         {
             if ((e.point1 == convexHull.listEdges[i].point1 ||
               e.point1 == convexHull.listEdges[i].point2 )&&(e.point2 == convexHull.listEdges[i].point1 || e.point2 ==
                 convexHull.listEdges[i].point2))
             {
-                return true;
-            }
+                index = i;
+                return index;
+            }   
         }
-        return false;
+        return index;
     }
     
-    bool AlreadyInPoint(Point e)
+    int AlreadyInPoint(Point e)
     {
         
-        if (convexHull.listPoints.Contains(e))
+        int index = -1;
+        for (int i = 0; i < convexHull.listPoints.Count; i++)
         {
-            return true;
+            if (e.coordonées == convexHull.listPoints[i].coordonées)
+            {
+                index = i;
+                return index;
+            }   
         }
-        return false;
+        return index;
     }
 
     void AddTriangle(Point a ,Point b, Point c)
@@ -373,15 +379,76 @@ public class ConvexHull3D : MonoBehaviour
         Material mat = mats[Random.Range(0,mats.Count)];
         EdgesNTris.drawTri(triangle, Meshobj, mat);
         
+        // On verifie les doublons d'edges
         convexHull.listFace.Add(triangle);
+        int index = AlreadyInEdges(triangle.edges1);
+        if ( index == -1)
+        {
+            convexHull.listEdges.Add(triangle.edges1);
+        }
+        else
+        {
+            triangle.edges1 = convexHull.listEdges[index];
+            convexHull.listEdges[index].triangleProprio.Add(triangle);
+        }
         
-        if(!AlreadyInEdges(triangle.edges1)) convexHull.listEdges.Add(triangle.edges1);
-        if(!AlreadyInEdges(triangle.edges2)) convexHull.listEdges.Add(triangle.edges2);
-        if(!AlreadyInEdges(triangle.edges3)) convexHull.listEdges.Add(triangle.edges3);
+        index = AlreadyInEdges(triangle.edges2);
+        if ( index == -1)
+        {
+            convexHull.listEdges.Add(triangle.edges2);
+        }
+        else
+        {
+            triangle.edges2 = convexHull.listEdges[index];
+            convexHull.listEdges[index].triangleProprio.Add(triangle);
+        }
+        index = AlreadyInEdges(triangle.edges3);
+        if ( index == -1)
+        {
+            convexHull.listEdges.Add(triangle.edges3);
+        }
+        else
+        {
+            triangle.edges3 = convexHull.listEdges[index];
+            convexHull.listEdges[index].triangleProprio.Add(triangle);
+        }
         
-        if(!AlreadyInPoint(triangle.point1)) convexHull.listPoints.Add(triangle.point1);
-        if(!AlreadyInPoint(triangle.point2)) convexHull.listPoints.Add(triangle.point2);
-        if(!AlreadyInPoint(triangle.point3)) convexHull.listPoints.Add(triangle.point3);
+        //Verification des doublons pour les points
         
+        int indexPoint = AlreadyInPoint(triangle.point1);
+        if ( index == -1)
+        {
+            convexHull.listPoints.Add(triangle.point1);
+        }
+        else
+        {
+            triangle.point1 = convexHull.listPoints[indexPoint];
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges1);
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges3);
+        }
+        
+        indexPoint = AlreadyInPoint(triangle.point2);
+        if ( indexPoint == -1)
+        {
+            convexHull.listPoints.Add(triangle.point2);
+        }
+        else
+        {
+            triangle.point2 = convexHull.listPoints[indexPoint];
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges1);
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges2);
+        }
+        
+        indexPoint = AlreadyInPoint(triangle.point3);
+        if ( indexPoint == -1)
+        {
+            convexHull.listPoints.Add(triangle.point3);
+        }
+        else
+        {
+            triangle.point3 = convexHull.listPoints[indexPoint];
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges2);
+            convexHull.listPoints[indexPoint].edgeProprio.Add(triangle.edges3);
+        }
     }
 }

@@ -55,19 +55,81 @@ public class Triangle
         normal = Vector3.zero;
     }
 
-    Vector3 getNormale(Point externe)
+    public Vector3 getNormale()
     {
         Vector3 n=Vector3.Cross(point1 - point2, point1- point3);
 
-        if (Vector3.Dot(n, point1 - externe) > 0) return -n;
+        Point externe = null;
+        
+        foreach (var e in point1.edgeProprio)
+        {
+            if (e.point1 != point1 && e.point1 != point2 && e.point1 != point3)
+            {
+                externe = e.point1;
+                break;
+            }
+            if(e.point2 != point1 && e.point2 != point2 && e.point2 != point3)
+            {
+                externe = e.point2;
+                break;
+            }
+        }
+
+        if (externe == null)
+        {
+            Debug.Log("Impossible de verifier, il ny a qu'un triangle");
+            return n;
+        }
+
+        if (Vector3.Dot(n, point1 - externe) > 0)
+        {
+            normal = -n;
+            return -n;
+        }
+
+        normal = n;
         return n;
     }
+    
+    
+    public void SetNormale()
+    {
+        Vector3 n=Vector3.Cross(point1 - point2, point1- point3);
+
+        Point externe = null;
+        
+        foreach (var e in point1.edgeProprio)
+        {
+            if (e.point1 != point1 && e.point1 != point2 && e.point1 != point3)
+            {
+                externe = e.point1;
+                break;
+            }
+            if(e.point2 != point1 && e.point2 != point2 && e.point2 != point3)
+            {
+                externe = e.point2;
+                break;
+            }
+        }
+
+        if (externe == null)
+        {
+            Debug.Log("Impossible de verifier, il ny a qu'un triangle");
+            return ;
+        }
+        if (Vector3.Dot(n, point1 - externe) > 0) normal= -n;
+        normal = n;
+    }
+    
 
     public void SetMesh(GameObject m)
     {
         this.mesh = m;
     }
-    
+    ~Triangle()
+    {
+        GameObject.Destroy(mesh);
+    }
     
 }
 
@@ -128,6 +190,11 @@ public class Point
    public void SetMesh(GameObject m)
    {
        this.mesh = m;
+   }
+
+   ~Point()
+   {
+       GameObject.Destroy(mesh);
    }
 }
 

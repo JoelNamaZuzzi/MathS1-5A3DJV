@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
@@ -17,6 +18,7 @@ public class ConvexHull3D : MonoBehaviour
     public GameObject lnrdr;
     public GameObject meshObj;
     public ConvexHull convexHull;
+    public ConvexHull convexHullTriangulationTest;
 
     public List<Material> mats = new List<Material>();
     private void Update()
@@ -41,6 +43,7 @@ public class ConvexHull3D : MonoBehaviour
         if(convexHull!=null) EraseFace();
 
         convexHull = new ConvexHull();
+        convexHullTriangulationTest = new ConvexHull();
         if (listePoints.Count < 3)
         {
             Debug.Log("Il nous faut 4 points au min");
@@ -60,11 +63,12 @@ public class ConvexHull3D : MonoBehaviour
                 
                 Debug.Log(pts.coordonées+ "exterieur");
                 CheckVisibilité(pts);
-               // UpdateHull(pts,convexHull);
+               UpdateHull(pts,convexHull);
             }
         }
     }
  
+
 
     void DrawTetrahedre()
     {
@@ -214,8 +218,8 @@ public class ConvexHull3D : MonoBehaviour
 
     public void UpdateHull(Point pts, ConvexHull hull)
     {
-        List<Edges> visibleEdges = new List<Edges>();
-        foreach (Triangle face in hull.listFace)
+        //List<Edges> visibleEdges = new List<Edges>();
+        /*foreach (Triangle face in hull.listFace)
         {
             if (face.couleur == color.bleu)
             {
@@ -323,22 +327,97 @@ public class ConvexHull3D : MonoBehaviour
             {
                 Debug.Log("face is red");
             }
-          
+            ResetColor();
+        }*/
+        for (int i = 0; i < hull.listFace.Count(); i++)
+        {
+            Triangle curFace = hull.listFace[i];
+            //We only interact with blue ones
+            if (curFace.couleur == color.bleu)
+            {
+                //Delete Face
+                EndFace(curFace);
+                hull.listFace.RemoveAt(i);
+                i -= 1;
+            }
         }
+        for (int i = 0; i < hull.listPoints.Count(); i++)
+        {
+            Point curPts = hull.listPoints[i];
+            //We only look at blue pts, red & purple one aren't useful here
+            if (curPts.couleur == color.bleu)
+            {
+                //Delete Pts
+                EndPoint(curPts);
+                hull.listPoints.RemoveAt(i);
+                i -= 1;
+            }
+        }
+        for (int i = 0; i<hull.listEdges.Count(); i++)
+        {
+            Edges curEdge = hull.listEdges[i];
+            //We don't look at red ones here
+            if (curEdge.couleur == color.bleu)
+            {
+                //Delete Edge
+                EndEdge(curEdge);
+                hull.listEdges.RemoveAt(i);
+                i -= 1;
+            }
+            else if (curEdge.couleur == color.violet)
+            {
+                //We draw a new triangle
+                AddTriangle(curEdge.point1, curEdge.point2, pts);
+            }
+            else
+            {
+                Debug.Log("Ma bite");
+            }
+        }
+        
     }
     
     void EndFace(Triangle t)
     {
         int index = t.edges1.triangleProprio.IndexOf(t);
-        t.edges1.triangleProprio.RemoveAt(index); 
-            
+        if (index != -1)
+        {
+            t.edges1.triangleProprio.RemoveAt(index);
+        }
+
         index = t.edges2.triangleProprio.IndexOf(t);
-        t.edges2.triangleProprio.RemoveAt(index);
-            
+        if (index != -1)
+        {
+            t.edges2.triangleProprio.RemoveAt(index);
+        }
+
         index = t.edges3.triangleProprio.IndexOf(t);
-        t.edges3.triangleProprio.RemoveAt(index);
+        if (index != -1)
+        {
+            t.edges3.triangleProprio.RemoveAt(index);
+        }
+        GameObject.Destroy(t.mesh);
+    }
+
+    void EndPoint(Point p)
+    {
+        int index = convexHull.listPoints.IndexOf(p);
+        listePoints.RemoveAt(index);
         
-        Destroy(t.mesh);
+    }
+
+    void EndEdge(Edges e)
+    {
+        int index = e.point1.edgeProprio.IndexOf(e);
+        if (index != -1)
+        {
+            e.point1.edgeProprio.RemoveAt(index);
+        }
+        index = e.point2.edgeProprio.IndexOf(e);
+        if (index != -1)
+        {
+            e.point2.edgeProprio.RemoveAt(index);
+        }
     }
 
     int AlreadyInEdges(Edges e)

@@ -520,34 +520,45 @@ MonoBehaviour:
   - "coordon\xE9es": {x: -6.66, y: 0, z: 0}
     normal: {x: -1, y: 0, z: 0}
     couleur: 0
-    mesh: {fileID: 1777287710}
-    IsMovable: 1
+    mesh: {fileID: 0}
+    IsMovable: 0
   - "coordon\xE9es": {x: 5.09, y: 0, z: 0}
     normal: {x: 1, y: 0, z: 0}
     couleur: 0
-    mesh: {fileID: 212054245}
-    IsMovable: 1
+    mesh: {fileID: 0}
+    IsMovable: 0
   - "coordon\xE9es": {x: -0.9099998, y: 6.75, z: 0}
     normal: {x: -0.1336061, y: 0.9910345, z: 0}
     couleur: 0
-    mesh: {fileID: 445634380}
-    IsMovable: 1
+    mesh: {fileID: 0}
+    IsMovable: 0
   - "coordon\xE9es": {x: -0.9099998, y: 0, z: -8.5}
     normal: {x: -0.1064505, y: 0, z: -0.99431807}
     couleur: 0
-    mesh: {fileID: 1196146127}
-    IsMovable: 1
-  - "coordon\xE9es": {x: -1.02, y: 1.64, z: -5.1}
+    mesh: {fileID: 0}
+    IsMovable: 0
+  - "coordon\xE9es": {x: 10.29, y: 0.164, z: -5.1}
     normal: {x: -0.18703793, y: 0.30072767, z: -0.93518966}
     couleur: 0
-    mesh: {fileID: 37544613}
-    IsMovable: 1
+    mesh: {fileID: 0}
+    IsMovable: 0
   lnrdr: {fileID: 912655249}
   meshObj: {fileID: 6775432236391102770, guid: ba356e3295c8c3f4c83ac3651af18248, type: 3}
   convexHull:
     listPoints: []
     listEdges: []
     listFace: []
+  mats:
+  - {fileID: 2100000, guid: 3a214edf58c42e34bbe1ba1b795dc30f, type: 2}
+  - {fileID: 2100000, guid: 7e4872baea4bd7146a22a13d7b937ab8, type: 2}
+  - {fileID: 2100000, guid: b6eb991c417f2e84ab74cccd60c9a2a2, type: 2}
+  - {fileID: 2100000, guid: 231b9a11256db514dacd38908fc115ca, type: 2}
+  - {fileID: 2100000, guid: 388bd6f46e87d614f93ad9f248bcc9ff, type: 2}
+  - {fileID: 2100000, guid: 47c9f0230134eee42a9ee248a087041b, type: 2}
+  - {fileID: 2100000, guid: a2be879bbd40a004081253b822663b7e, type: 2}
+  - {fileID: 2100000, guid: becfac79458635547afbb35e4d583dee, type: 2}
+  - {fileID: 2100000, guid: 16c09e2ac86849247b5d8ffea24de2a5, type: 2}
+  - {fileID: 2100000, guid: 6566401e4c5871c4f84bb22d75defdd6, type: 2}
 --- !u!1 &430984971
 GameObject:
   m_ObjectHideFlags: 0

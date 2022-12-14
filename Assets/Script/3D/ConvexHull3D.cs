@@ -50,22 +50,24 @@ public class ConvexHull3D : MonoBehaviour
         }
         
         DrawTetrahedre();
-        foreach (Point pts in listePoints)
+        for (int i = 0; i < listePoints.Count; i++)
         {
-            
-            bool inside = TestInteriorite(pts);
+            bool inside = TestInteriorite(listePoints[i]);
             if (inside)
             {
-                Debug.Log(pts.coordonées+"interieur");
+                Debug.Log(listePoints[i].coordonées+"interieur");
             }
             else
             {
-                
-                Debug.Log(pts.coordonées+ "exterieur");
-                CheckVisibilité(pts);
-               UpdateHull(pts,convexHull);
+                Debug.Log(listePoints[i].coordonées+ "exterieur");
+                CheckVisibilité(listePoints[i]);
+                UpdateHull(listePoints[i],convexHull);
             }
         }
+
+        
+            
+        
     }
  
 

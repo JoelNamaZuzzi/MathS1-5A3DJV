@@ -224,6 +224,7 @@ public class ConvexHull3D : MonoBehaviour
             {
                 //Delete Pts
                 EndPoint(curPts);
+                GameObject.Destroy(curPts.mesh);
                 hull.listPoints.RemoveAt(i);
                 i -= 1;
             }

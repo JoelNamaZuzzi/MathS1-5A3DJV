@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1381ac5ef5c72e47b2b9c0dd0267076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nb_Point: 6
+  nb_Point: 100
   point: {fileID: 3799434404102103405, guid: f06bd039d42b1074d8db00f91936cbee, type: 3}
   Pos: {x: 0, y: 0, z: 0}
   camera: {fileID: 1015367170}

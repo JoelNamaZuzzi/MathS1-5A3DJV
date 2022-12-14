@@ -223,7 +223,6 @@ public class ConvexHull3D : MonoBehaviour
             if (curPts.couleur == color.bleu)
             {
                 //Delete Pts
-                EndPoint(curPts);
                 GameObject.Destroy(curPts.mesh);
                 hull.listPoints.RemoveAt(i);
                 i -= 1;
@@ -274,13 +273,7 @@ public class ConvexHull3D : MonoBehaviour
         }
         GameObject.Destroy(t.mesh);
     }
-
-    void EndPoint(Point p)
-    {
-        int index = convexHull.listPoints.IndexOf(p);
-        listePoints.RemoveAt(index);
-        
-    }
+    
 
     void EndEdge(Edges e)
     {

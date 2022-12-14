@@ -50,10 +50,9 @@ public class ConvexHull3D : MonoBehaviour
         }
         
         DrawTetrahedre();
-        for (int i = 0; i < listePoints.Count; i++)
+        for (int i = 4; i < listePoints.Count; i++)
         {
-            bool inside = TestInteriorite(listePoints[i]);
-            if (inside)
+            if (Alinterieur(listePoints[i]))
             {
                 Debug.Log(listePoints[i].coordonées+"interieur");
             }
@@ -64,14 +63,8 @@ public class ConvexHull3D : MonoBehaviour
                 UpdateHull(listePoints[i],convexHull);
             }
         }
-
-        
-            
-        
     }
- 
-
-
+    
     void DrawTetrahedre()
     {
         AddTriangle(listePoints[0],listePoints[1],listePoints[2]);
@@ -80,25 +73,6 @@ public class ConvexHull3D : MonoBehaviour
         AddTriangle(listePoints[1],listePoints[2],listePoints[3]);
     }
     
-    //renvoie true si interieur, sinon renvoie false
-    bool TestInteriorite(Point p)
-    {
-
-        RaycastHit[] hits;
-        Ray ray = new Ray(p.coordonées, Vector3.right);
-        hits = Physics.RaycastAll(ray,100);
-        Debug.DrawRay(p.coordonées,Vector3.right*100,Color.red,duration:1000000f);
-        
-        // si il y a 1 seul hit on est a l'interieur sinon on est a l'exterieur 
-        if (hits.Length == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     //Permet de verifier la visibilité d'un point.
     private void CheckVisibilité(Point pts)
@@ -204,6 +178,15 @@ public class ConvexHull3D : MonoBehaviour
         if (r > 0) return true;
         return false;
     }
+
+    bool Alinterieur(Point p)
+    {
+        for (int i = 0; i < convexHull.listFace.Count; i++)
+        {
+            if ( isVisible(convexHull.listFace[i], p)) return false;
+        }
+        return true;
+    }
     
     public void EraseFace()
     {
@@ -220,117 +203,7 @@ public class ConvexHull3D : MonoBehaviour
 
     public void UpdateHull(Point pts, ConvexHull hull)
     {
-        //List<Edges> visibleEdges = new List<Edges>();
-        /*foreach (Triangle face in hull.listFace)
-        {
-            if (face.couleur == color.bleu)
-            {
-                visibleEdges.Add(face.edges1);
-                visibleEdges.Add(face.edges2);
-                visibleEdges.Add(face.edges3);
-            }
-        }
-        foreach (Triangle face in hull.listFace)
-        {
-            if (face.couleur == color.bleu)
-            {
-                int count = visibleEdges.Where(x => x.Equals(face.edges1)).Count();
-                if (count > 1)
-                {
-                    face.edges1 =null;
-                }
-                count = visibleEdges.Where(x => x.Equals(face.edges2)).Count();
-                if (count > 1)
-                {
-                    face.edges2 =null;
-                }
-                count = visibleEdges.Where(x => x.Equals(face.edges3)).Count();
-                if (count > 1)
-                {
-                    face.edges3 =null;
-                }
-            }
-        }
-        foreach (Triangle face in hull.listFace)
-        {
-            if (face.couleur == color.bleu)
-            {
-                
-                
-                //we have to test independently each edges
-                if (face.edges1 != null && face.edges1.couleur == color.violet)
-                {
-                    //Create triangle
-                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
-                    Triangle newTriangle = new Triangle(pts,face.edges1.point1,face.edges1.point2);
-                    Material mat = mats[Random.Range(0,mats.Count)];
-                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
-                    
-                    hull.listFace.Add(newTriangle);
-                    hull.listEdges.Add(newTriangle.edges1);
-                    hull.listEdges.Add(newTriangle.edges2);
-                    hull.listEdges.Add(newTriangle.edges3);
-
-                    hull.listPoints.Add(newTriangle.point1);
-                    hull.listPoints.Add(newTriangle.point2);
-                    hull.listPoints.Add(newTriangle.point3);
-                }
-                else
-                {
-                    Debug.Log("Edge is Red");
-                }
-                if (face.edges2 != null && face.edges2.couleur == color.violet)
-                {
-                    //Create triangle
-                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
-                    Triangle newTriangle = new Triangle(pts,face.edges2.point1,face.edges2.point2);
-                    Material mat = mats[Random.Range(0,mats.Count)];
-                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
-                    
-                    hull.listFace.Add(newTriangle);
-                    hull.listEdges.Add(newTriangle.edges1);
-                    hull.listEdges.Add(newTriangle.edges2);
-                    hull.listEdges.Add(newTriangle.edges3);
-
-                    hull.listPoints.Add(newTriangle.point1);
-                    hull.listPoints.Add(newTriangle.point2);
-                    hull.listPoints.Add(newTriangle.point3);
-                }
-                else
-                {
-                    Debug.Log("Edge is Red");
-                }
-                if (face.edges3 != null && face.edges3.couleur == color.violet)
-                {
-                    //Create triangle
-                    GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
-                    Triangle newTriangle = new Triangle(pts,face.edges3.point1,face.edges3.point2);
-                    Material mat = mats[Random.Range(0,mats.Count)];
-                    EdgesNTris.drawTri(newTriangle, Meshobj, mat);
-                    
-                    hull.listFace.Add(newTriangle);
-                    hull.listEdges.Add(newTriangle.edges1);
-                    hull.listEdges.Add(newTriangle.edges2);
-                    hull.listEdges.Add(newTriangle.edges3);
-
-                    hull.listPoints.Add(newTriangle.point1);
-                    hull.listPoints.Add(newTriangle.point2);
-                    hull.listPoints.Add(newTriangle.point3);
-                }
-                else
-                {
-                    Debug.Log("Edge is Red");
-                }
-                int index = hull.listFace.IndexOf(face);
-                EndFace(face);
-                hull.listFace.RemoveAt(index);
-            }
-            else
-            {
-                Debug.Log("face is red");
-            }
-            ResetColor();
-        }*/
+       
         for (int i = 0; i < hull.listFace.Count(); i++)
         {
             Triangle curFace = hull.listFace[i];
@@ -350,7 +223,7 @@ public class ConvexHull3D : MonoBehaviour
             if (curPts.couleur == color.bleu)
             {
                 //Delete Pts
-                EndPoint(curPts);
+                GameObject.Destroy(curPts.mesh);
                 hull.listPoints.RemoveAt(i);
                 i -= 1;
             }
@@ -376,7 +249,7 @@ public class ConvexHull3D : MonoBehaviour
                 Debug.Log("Ma bite");
             }
         }
-        
+        ResetColor();
     }
     
     void EndFace(Triangle t)
@@ -400,13 +273,7 @@ public class ConvexHull3D : MonoBehaviour
         }
         GameObject.Destroy(t.mesh);
     }
-
-    void EndPoint(Point p)
-    {
-        int index = convexHull.listPoints.IndexOf(p);
-        listePoints.RemoveAt(index);
-        
-    }
+    
 
     void EndEdge(Edges e)
     {
@@ -497,7 +364,7 @@ public class ConvexHull3D : MonoBehaviour
         //Verification des doublons pour les points
         
         int indexPoint = AlreadyInPoint(triangle.point1);
-        if ( index == -1)
+        if ( indexPoint == -1)
         {
             convexHull.listPoints.Add(triangle.point1);
         }

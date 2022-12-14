@@ -36,8 +36,6 @@ public static class EdgesNTris
 
         MeshFilter meshFilter = meshObj.AddComponent<MeshFilter>();
 
-        MeshCollider meshcollider = meshObj.GetComponent<MeshCollider>();
-
         Mesh mesh = new Mesh();
 
         Vector3[] vertices = new Vector3[3]
@@ -70,8 +68,7 @@ public static class EdgesNTris
             new Vector2(0, 1)
         };
         mesh.uv = uv;
-
-        meshcollider.sharedMesh= mesh;
+        
         meshFilter.mesh = mesh;
         triangle.SetMesh(meshObj);
     }

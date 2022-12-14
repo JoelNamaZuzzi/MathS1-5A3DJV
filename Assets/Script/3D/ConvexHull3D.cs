@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Color = UnityEngine.Color;
 
 
@@ -13,6 +14,7 @@ public class ConvexHull3D : MonoBehaviour
     public GameObject lnrdr;
     public GameObject meshObj;
     public ConvexHull convexHull;
+    public ConvexHull convexHullTriangulationTest;
 
     public List<Material> mats = new List<Material>();
     private void Update()
@@ -40,12 +42,13 @@ public class ConvexHull3D : MonoBehaviour
         // A modif car les ancienne Hull reste lors d'une nouvelle genération
 
         convexHull = new ConvexHull();
+        convexHullTriangulationTest = new ConvexHull();
         if (listePoints.Count < 3)
         {
             Debug.Log("Il nous faut 4 points au min");
         }
         
-        DrawTetrahedre(convexHull);
+        DrawTetrahedre(convexHull,convexHullTriangulationTest);
         foreach (Point pts in listePoints)
         {
             bool inside = TestInteriorite(pts);
@@ -62,7 +65,7 @@ public class ConvexHull3D : MonoBehaviour
     }
  
 
-    void DrawTetrahedre(ConvexHull hull)
+    void DrawTetrahedre(ConvexHull hull,ConvexHull testTri)
     {
         GameObject Meshobj = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
         Triangle triangle1 = new Triangle(listePoints[0],listePoints[1],listePoints[2]);
@@ -84,12 +87,32 @@ public class ConvexHull3D : MonoBehaviour
         mat = mats[Random.Range(0,mats.Count)];
         EdgesNTris.drawTri(triangle4, Meshobj4, mat);
         
+        GameObject Meshobj5 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+        Triangle triangle5 = new Triangle(listePoints[0],listePoints[2],listePoints[5]);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle5, Meshobj5, mat);
+        
+        GameObject Meshobj6 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+        Triangle triangle6 = new Triangle(listePoints[1],listePoints[2],listePoints[5]);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle6, Meshobj6, mat);
+        
+        GameObject Meshobj7 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+        Triangle triangle7 = new Triangle(listePoints[1],listePoints[3],listePoints[5]);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle7, Meshobj7, mat);
+        
+        GameObject Meshobj8 = Instantiate(meshObj, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+        Triangle triangle8 = new Triangle(listePoints[0],listePoints[3],listePoints[5]);
+        mat = mats[Random.Range(0,mats.Count)];
+        EdgesNTris.drawTri(triangle8, Meshobj8, mat);
+        
         // On stock notre tetrahedre dans notre convex hull
         hull.listFace.Add(triangle1);
         hull.listFace.Add(triangle2);
         hull.listFace.Add(triangle3);
         hull.listFace.Add(triangle4);
-        
+
         hull.listEdges.Add(triangle1.edges1);
         hull.listEdges.Add(triangle1.edges2);
         hull.listEdges.Add(triangle1.edges3);
@@ -115,6 +138,54 @@ public class ConvexHull3D : MonoBehaviour
         hull.listPoints.Add(triangle4.point1);
         hull.listPoints.Add(triangle4.point2);
         hull.listPoints.Add(triangle4.point3);
+        /////////////////////////:TestTri///////////////////::
+        testTri.listFace.Add(triangle3);
+        testTri.listFace.Add(triangle4);
+        testTri.listFace.Add(triangle5);
+        testTri.listFace.Add(triangle6);
+        testTri.listFace.Add(triangle7);
+        testTri.listFace.Add(triangle8);
+        
+
+        testTri.listEdges.Add(triangle3.edges1);
+        testTri.listEdges.Add(triangle3.edges2);
+        testTri.listEdges.Add(triangle3.edges3);
+        testTri.listEdges.Add(triangle4.edges1);
+        testTri.listEdges.Add(triangle4.edges2);
+        testTri.listEdges.Add(triangle4.edges3);
+        
+        testTri.listEdges.Add(triangle5.edges1);
+        testTri.listEdges.Add(triangle5.edges2);
+        testTri.listEdges.Add(triangle5.edges3);
+        testTri.listEdges.Add(triangle6.edges1);
+        testTri.listEdges.Add(triangle6.edges2);
+        testTri.listEdges.Add(triangle6.edges3);
+        testTri.listEdges.Add(triangle7.edges1);
+        testTri.listEdges.Add(triangle7.edges2);
+        testTri.listEdges.Add(triangle7.edges3);
+        testTri.listEdges.Add(triangle8.edges1);
+        testTri.listEdges.Add(triangle8.edges2);
+        testTri.listEdges.Add(triangle8.edges3);
+        
+        testTri.listPoints.Add(triangle3.point1);
+        testTri.listPoints.Add(triangle3.point2);
+        testTri.listPoints.Add(triangle3.point3);
+        testTri.listPoints.Add(triangle4.point1);
+        testTri.listPoints.Add(triangle4.point2);
+        testTri.listPoints.Add(triangle4.point3);
+        
+        testTri.listPoints.Add(triangle5.point1);
+        testTri.listPoints.Add(triangle5.point2);
+        testTri.listPoints.Add(triangle5.point3);
+        testTri.listPoints.Add(triangle6.point1);
+        testTri.listPoints.Add(triangle6.point2);
+        testTri.listPoints.Add(triangle6.point3);
+        testTri.listPoints.Add(triangle7.point1);
+        testTri.listPoints.Add(triangle7.point2);
+        testTri.listPoints.Add(triangle7.point3);
+        testTri.listPoints.Add(triangle8.point1);
+        testTri.listPoints.Add(triangle8.point2);
+        testTri.listPoints.Add(triangle8.point3);
     }
     
     //renvoie true si interieur, sinon renvoie false

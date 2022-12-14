@@ -593,6 +593,10 @@ MonoBehaviour:
   lr: {fileID: 4978073367017580524, guid: eb1b6e6e09af66e4e96317409cc45b0b, type: 3}
   line: {fileID: 860455607543951754, guid: eb5cef6ea7bf3114bb4681bb595f9c73, type: 3}
   sphereRayon: {fileID: 3689218657508895203, guid: 5b4c620a53dc07149b1b642de8b5aa83, type: 3}
+  goTest: {fileID: 37544613}
+  center: {x: 0, y: 0, z: 0}
+  centerDelaunay: {x: 0, y: 0, z: 0}
+  rayon: 0
 --- !u!1 &430984971
 GameObject:
   m_ObjectHideFlags: 0
